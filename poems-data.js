@@ -1,98 +1,31 @@
 const poemsData = [
+    // 2025 poems temporarily hidden - not published yet
+    /*
     {
         id: 'uheksas-kiri',
         title: 'ÜHEKSAS KIRI INGILE',
         date: '2025',
-        text: `sinu jaoks kerkivad mäed
-ja sinu jaoks voolavad ojad
-
-sinule naeravad lilled
-sinule laulavad luiged
-
-lase siis ka mul
-vormuda mägede järgi
-
-moodusatada ehataeva kui sina hõikad
-rõõmust või ängist
-murest või hirmust
-
-et sind õhtuhämaruses kuulata
-jääda seisma metsa veerel
-sulle tagasi ümiseda
-
-et sina puude kohinat kuuleksid
-ja tunneksid tõesti kuidas
-
-sinu jaoks kajavad mäed
-ja vulisevad ojad`
+        text: `sinu jaoks kerkivad mäed...`
     },
     {
         id: 'enese-avamine',
         title: 'ENESE AVAMISE ÕPETUS',
         date: '2025',
-        text: `näitasin märga keelt
-kas seda oli liiga palju
-
-näitasin märga keelt
-mis nüüd minuga saab
-
-näitasin märga keelt
-oli see liiga ligane?
-
-kas sinul on samuti selline?
-miks ma siis seda ei näe
-
-nüüd ma siin siis istun
-ikka märg ja ligane
-
-istun siin ja ootan
-ootan sinu vastust
-
-ja kui sa mind ei taha
-mind, märga, ligast
-
-siis küllap keegi teine
-küllap keegi tahab
-
-(samal ajal köögis lakun üle kõik lauapinnad 
-ja maitsen elus esimest korda soola)`
+        text: `näitasin märga keelt...`
     },
     {
         id: 'kuhu-edasi',
         title: 'KUHU EDASI',
         date: '2025',
-        text: `iga mehe unistus on ununeda unustusse
-kinni panna silmad, tunda pehmet mulda
-
-tunda kuidas ussid ihu nosivad
-siseorganeid ahnitsevad 
-
-tead su elu õnnestunud kui leiad end kõdunemas
-näed habrast keha kesk kevadisi kaseoksi
-
-tunned kuidas sipelgad su ninasõõrmeid silitavad
-mutid uusi teid rajavad
-
-iga mees ihkab plahvatavalt karjatada
-näidata hetkeks et ta on olemas
-
-ja siis lahtuda hommikusse kastesse`
+        text: `iga mehe unistus...`
     },
     {
         id: 'mis-on-inimene',
         title: '*',
         date: '2025',
-        text: `mis on inimene
-
-kas plahvatus mis õhku paiskab 
-    siidpehmet aroomi
-
-või komistus mis kukkudes jõuab veel
-    metsa hõigata läbilõikavat ulgu
-    
-et siis kuuskedelt tagasi kajades 
-    taevasse hajuda`
+        text: `mis on inimene...`
     },
+    */
     {
         id: 'uinumismantra',
         title: 'UINUMISMANTRA',
