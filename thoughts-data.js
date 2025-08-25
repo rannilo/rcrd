@@ -254,6 +254,22 @@ const thoughtsData = {
             tags: ['archetypes', 'unconscious', 'mythology']
         },
         {
+            id: 'maps-of-meaning',
+            label: 'MAPS OF MEANING',
+            type: 'book',
+            parent: 'jung',
+            description: 'Peterson\'s lecture series on Jungian interpretation of stories and myths',
+            tags: ['peterson', 'mythology', 'psychology', 'meaning']
+        },
+        {
+            id: 'biblical-stories',
+            label: 'BIBLICAL STORIES',
+            type: 'book',
+            parent: 'jung',
+            description: 'Peterson\'s biblical series analyzing stories through Jungian lens',
+            tags: ['peterson', 'bible', 'stories', 'psychology']
+        },
+        {
             id: 'dreams',
             label: 'DREAMS',
             type: 'concept',

@@ -540,9 +540,81 @@ class BranchSystem {
         const color = nodeColors[node.type] || nodeColors.default;
         const isHovered = this.hoveredNode === node;
         const isSelected = this.selectedNode === node;
+        const isPoetryNode = node.id === 'poetry';
+        const isMindNode = node.type === 'root';
         
-        // Glow effect
-        if (isHovered || isSelected) {
+        // Special pulsing glow for poetry node
+        if (isPoetryNode) {
+            const baseIntensity = 0.2 + 0.15 * Math.sin(this.time * 1.5);
+            const baseGlowSize = 30 + 8 * Math.sin(this.time * 1.2);
+            
+            // Go crazy on hover!
+            const pulseIntensity = isHovered ? 
+                0.6 + 0.4 * Math.sin(this.time * 8) + 0.2 * Math.sin(this.time * 12) :
+                baseIntensity;
+            const glowSize = isHovered ?
+                50 + 25 * Math.sin(this.time * 6) + 10 * Math.sin(this.time * 15) :
+                baseGlowSize;
+                
+            const gradient = this.ctx.createRadialGradient(
+                node.x, node.y, 0,
+                node.x, node.y, glowSize
+            );
+            
+            if (isHovered) {
+                gradient.addColorStop(0, `rgba(255, 215, 0, ${pulseIntensity * 0.8})`);
+                gradient.addColorStop(0.2, `rgba(255, 165, 0, ${pulseIntensity * 0.6})`);
+                gradient.addColorStop(0.5, `rgba(255, 105, 180, ${pulseIntensity * 0.4})`);
+                gradient.addColorStop(0.8, `rgba(126, 179, 70, ${pulseIntensity * 0.2})`);
+                gradient.addColorStop(1, 'rgba(126, 179, 70, 0)');
+            } else {
+                gradient.addColorStop(0, `rgba(255, 215, 0, ${pulseIntensity * 0.3})`);
+                gradient.addColorStop(0.4, `rgba(255, 165, 0, ${pulseIntensity * 0.2})`);
+                gradient.addColorStop(0.8, `rgba(126, 179, 70, ${pulseIntensity * 0.1})`);
+                gradient.addColorStop(1, 'rgba(126, 179, 70, 0)');
+            }
+            
+            this.ctx.fillStyle = gradient;
+            this.ctx.fillRect(node.x - glowSize, node.y - glowSize, glowSize * 2, glowSize * 2);
+        }
+        
+        // Special pulsing glow for mind (root) node
+        if (isMindNode && !isPoetryNode) {
+            const baseIntensity = 0.25 + 0.12 * Math.sin(this.time * 1.3);
+            const baseGlowSize = 40 + 10 * Math.sin(this.time * 0.9);
+            
+            // Mind gets excited on hover too!
+            const pulseIntensity = isHovered ?
+                0.7 + 0.3 * Math.sin(this.time * 7) + 0.15 * Math.sin(this.time * 11) :
+                baseIntensity;
+            const glowSize = isHovered ?
+                60 + 30 * Math.sin(this.time * 5) + 15 * Math.sin(this.time * 13) :
+                baseGlowSize;
+                
+            const gradient = this.ctx.createRadialGradient(
+                node.x, node.y, 0,
+                node.x, node.y, glowSize
+            );
+            
+            if (isHovered) {
+                gradient.addColorStop(0, `rgba(70, 130, 180, ${pulseIntensity * 0.7})`);
+                gradient.addColorStop(0.2, `rgba(100, 149, 237, ${pulseIntensity * 0.5})`);
+                gradient.addColorStop(0.4, `rgba(138, 43, 226, ${pulseIntensity * 0.4})`);
+                gradient.addColorStop(0.7, `rgba(126, 179, 70, ${pulseIntensity * 0.2})`);
+                gradient.addColorStop(1, 'rgba(126, 179, 70, 0)');
+            } else {
+                gradient.addColorStop(0, `rgba(70, 130, 180, ${pulseIntensity * 0.25})`);
+                gradient.addColorStop(0.3, `rgba(100, 149, 237, ${pulseIntensity * 0.18})`);
+                gradient.addColorStop(0.7, `rgba(126, 179, 70, ${pulseIntensity * 0.12})`);
+                gradient.addColorStop(1, 'rgba(126, 179, 70, 0)');
+            }
+            
+            this.ctx.fillStyle = gradient;
+            this.ctx.fillRect(node.x - glowSize, node.y - glowSize, glowSize * 2, glowSize * 2);
+        }
+        
+        // Regular glow effect for hovered/selected nodes
+        if ((isHovered || isSelected) && !isPoetryNode && !isMindNode) {
             const glowSize = isSelected ? 40 : 30;
             const gradient = this.ctx.createRadialGradient(
                 node.x, node.y, 0,
@@ -554,23 +626,55 @@ class BranchSystem {
             this.ctx.fillRect(node.x - glowSize, node.y - glowSize, glowSize * 2, glowSize * 2);
         }
         
-        // Node circle
+        // Node circle with special poetry styling
         this.ctx.beginPath();
         this.ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
         this.ctx.fillStyle = color;
         this.ctx.fill();
         
-        // Border
-        this.ctx.strokeStyle = isHovered ? '#ffffff' : 'rgba(143, 188, 143, 0.5)';
-        this.ctx.lineWidth = isHovered ? 3 : 2;
+        // Border with poetry and mind enhancement
+        if (isPoetryNode) {
+            const pulseWidth = isHovered ?
+                3 + 2.5 * Math.sin(this.time * 10) + 1 * Math.sin(this.time * 18) :
+                2 + 0.8 * Math.sin(this.time * 2.5);
+            const opacity = isHovered ?
+                0.9 + 0.1 * Math.sin(this.time * 8) :
+                0.6 + 0.15 * Math.sin(this.time * 2);
+            this.ctx.strokeStyle = `rgba(255, 215, 0, ${opacity})`;
+            this.ctx.lineWidth = pulseWidth;
+        } else if (isMindNode) {
+            const pulseWidth = isHovered ?
+                3 + 2 * Math.sin(this.time * 9) + 1 * Math.sin(this.time * 16) :
+                2 + 0.6 * Math.sin(this.time * 1.8);
+            const opacity = isHovered ?
+                0.95 + 0.05 * Math.sin(this.time * 7) :
+                0.7 + 0.12 * Math.sin(this.time * 1.6);
+            this.ctx.strokeStyle = `rgba(70, 130, 180, ${opacity})`;
+            this.ctx.lineWidth = pulseWidth;
+        } else {
+            this.ctx.strokeStyle = isHovered ? '#ffffff' : 'rgba(143, 188, 143, 0.5)';
+            this.ctx.lineWidth = isHovered ? 3 : 2;
+        }
         this.ctx.stroke();
         
         // Inner detail
-        if (node.type === 'root') {
+        if (isMindNode && !isPoetryNode) {
             this.ctx.beginPath();
             this.ctx.arc(node.x, node.y, node.radius * 0.6, 0, Math.PI * 2);
-            this.ctx.strokeStyle = 'rgba(126, 179, 70, 0.8)';
+            this.ctx.strokeStyle = `rgba(70, 130, 180, ${0.5 + 0.08 * Math.sin(this.time * 2.2)})`;
             this.ctx.lineWidth = 1;
+            this.ctx.stroke();
+        }
+        
+        // Special inner glow for poetry node
+        if (isPoetryNode) {
+            this.ctx.beginPath();
+            this.ctx.arc(node.x, node.y, node.radius * 0.7, 0, Math.PI * 2);
+            const innerOpacity = isHovered ?
+                0.8 + 0.2 * Math.sin(this.time * 12) :
+                0.3 + 0.1 * Math.sin(this.time * 3);
+            this.ctx.strokeStyle = `rgba(255, 215, 0, ${innerOpacity})`;
+            this.ctx.lineWidth = isHovered ? 2 : 1;
             this.ctx.stroke();
         }
     }
