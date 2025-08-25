@@ -1,6 +1,4 @@
 const poemsData = [
-    // 2025 poems temporarily hidden - not published yet
-    /*
     {
         id: 'uheksas-kiri',
         title: 'ÜHEKSAS KIRI INGILE',
@@ -25,7 +23,6 @@ const poemsData = [
         date: '2025',
         text: `mis on inimene...`
     },
-    */
     {
         id: 'uinumismantra',
         title: 'UINUMISMANTRA',

@@ -1,4 +1,3 @@
 # Robots.txt for rcrd.nl
 User-agent: *
-Disallow: /poems-data.js
-Allow: /
+Disallow: /
