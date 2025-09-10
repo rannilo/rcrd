@@ -30,7 +30,32 @@ ja vulisevad ojad`
         id: 'enese-avamine',
         title: 'ENESE AVAMISE ÕPETUS',
         date: '2025',
-        text: `näitasin märga keelt...`
+        text: `näitasin märga keelt
+kas seda oli liiga palju
+
+näitasin märga keelt
+mis nüüd minuga saab
+
+näitasin märga keelt
+oli see liiga ligane?
+
+kas sinul on samuti selline?
+miks ma siis seda ei näe
+
+nüüd ma siin siis istun
+ikka märg ja ligane
+
+istun siin ja ootan
+ootan sinu vastust
+
+ja kui sa mind ei taha
+mind, märga, ligast
+
+siis küllap keegi teine
+küllap keegi tahab
+
+(samal ajal köögis lakun üle kõik lauapinnad 
+ja maitsen elus esimest korda soola)`
     },
     {
         id: 'kuhu-edasi',
