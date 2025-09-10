@@ -615,12 +615,12 @@ Where you are. you must let it find you."
     `;
     
     closeButton.addEventListener('mouseenter', () => {
-        closeButton.style.background = var(--mid-green);
+        closeButton.style.background = '#2d5016';
         closeButton.style.transform = 'scale(1.1)';
     });
     
     closeButton.addEventListener('mouseleave', () => {
-        closeButton.style.background = var(--bark-brown);
+        closeButton.style.background = '#3e2723';
         closeButton.style.transform = 'scale(1)';
     });
     closeButton.addEventListener('click', () => modal.remove());
