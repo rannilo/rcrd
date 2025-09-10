@@ -556,29 +556,37 @@ Where you are. you must let it find you."
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(13, 31, 13, 0.95);
+        background: linear-gradient(135deg, rgba(13, 31, 13, 0.98), rgba(5, 10, 5, 0.95));
         display: flex;
         align-items: center;
         justify-content: center;
         z-index: 10000;
-        backdrop-filter: blur(3px);
+        backdrop-filter: blur(8px);
+        animation: fadeIn 0.3s ease-out;
     `;
     
     const thoughtBox = document.createElement('div');
     thoughtBox.style.cssText = `
-        background: var(--deep-green);
-        border: 2px solid var(--sage-green);
-        border-radius: 8px;
-        padding: 30px;
-        max-width: 600px;
+        background: linear-gradient(145deg, var(--deep-green), var(--mid-green));
+        border: 4px solid var(--bright-green);
+        border-radius: 12px;
+        padding: 40px;
+        max-width: 700px;
         max-height: 80vh;
         overflow-y: auto;
-        color: var(--sage-green);
+        color: var(--moss);
         font-family: 'Courier New', monospace;
-        font-size: 16px;
-        line-height: 1.6;
+        font-size: 18px;
+        line-height: 1.8;
         white-space: pre-line;
-        text-align: center;
+        text-align: left;
+        box-shadow: 
+            8px 8px 0 var(--shadow),
+            8px 8px 40px rgba(126, 179, 70, 0.3),
+            inset 0 0 30px rgba(126, 179, 70, 0.1);
+        position: relative;
+        transform: scale(0.95);
+        animation: thoughtPopIn 0.4s ease-out forwards;
     `;
     
     thoughtBox.textContent = randomThought;
@@ -588,15 +596,33 @@ Where you are. you must let it find you."
     closeButton.textContent = '×';
     closeButton.style.cssText = `
         position: absolute;
-        top: 10px;
-        right: 15px;
-        background: none;
-        border: none;
-        color: var(--sage-green);
-        font-size: 24px;
+        top: 15px;
+        right: 20px;
+        background: var(--bark-brown);
+        border: 2px solid var(--bright-green);
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        color: var(--moss);
+        font-size: 20px;
+        font-weight: bold;
         cursor: pointer;
-        opacity: 0.7;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Courier New', monospace;
     `;
+    
+    closeButton.addEventListener('mouseenter', () => {
+        closeButton.style.background = var(--mid-green);
+        closeButton.style.transform = 'scale(1.1)';
+    });
+    
+    closeButton.addEventListener('mouseleave', () => {
+        closeButton.style.background = var(--bark-brown);
+        closeButton.style.transform = 'scale(1)';
+    });
     closeButton.addEventListener('click', () => modal.remove());
     
     thoughtBox.style.position = 'relative';

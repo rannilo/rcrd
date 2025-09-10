@@ -1146,7 +1146,7 @@ body {
 }
 
 .thought-trigger {
-    background: radial-gradient(circle, var(--moss), var(--sage-green));
+    background: radial-gradient(circle, var(--moss), var(--light-green));
     border: 3px solid var(--shadow);
     color: var(--dark-forest);
     padding: 15px 25px;
@@ -1159,6 +1159,9 @@ body {
     border-radius: 6px;
     transition: all 0.2s ease;
     margin-left: 10px;
+    box-shadow: 
+        5px 5px 0 var(--shadow),
+        5px 5px 25px rgba(126, 179, 70, 0.4);
 }
 
 .thought-trigger:hover {
@@ -1171,7 +1174,7 @@ body {
 .youtube-trigger {
     background: linear-gradient(45deg, var(--bark-brown), var(--deep-green));
     border: 3px solid var(--shadow);
-    color: var(--sage-green);
+    color: var(--moss);
     padding: 15px 25px;
     font-size: 16px;
     font-weight: 900;
@@ -1181,6 +1184,9 @@ body {
     font-family: 'Courier New', monospace;
     border-radius: 6px;
     transition: all 0.2s ease;
+    box-shadow: 
+        5px 5px 0 var(--shadow),
+        5px 5px 25px rgba(74, 124, 46, 0.4);
 }
 
 .youtube-trigger:hover {
@@ -1189,6 +1195,27 @@ body {
         7px 7px 0 var(--shadow),
         7px 7px 35px rgba(74, 124, 46, 0.6);
     background: linear-gradient(45deg, #4a3c2a, var(--bark-brown));
+}
+
+/* Random thoughts modal animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes thoughtPopIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 /* Scrollbar styling for profile container */
