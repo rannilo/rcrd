@@ -508,7 +508,8 @@ function openRandomYouTubeVideo() {
         'https://www.youtube.com/watch?v=4UdEFmxRmNE', // Yogscast, shadow of israphel part 1
         'https://www.youtube.com/watch?v=B36Ehzf2cxE', // paulsoaresjr minecraft tutorial video
         'https://www.youtube.com/watch?v=Uw7e5PCbKgE', // smosh food battle 2011
-        'https://www.youtube.com/watch?v=NTTJcz0rqco'  // jack and dean fac-e-book
+        'https://www.youtube.com/watch?v=NTTJcz0rqco', // jack and dean fac-e-book
+        'https://www.youtube.com/watch?v=nL33h2zeTPY'  // athene video
     ];
     
     const randomVideo = videos2010s[Math.floor(Math.random() * videos2010s.length)];
