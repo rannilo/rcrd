@@ -262,6 +262,17 @@ function showNodeDetail(node) {
         actionsEl.appendChild(youtubeBtn);
     }
     
+    // Add special button for Vsauce node
+    if (node.id === 'vsauce') {
+        const vsauceBtn = document.createElement('button');
+        vsauceBtn.className = 'youtube-trigger';
+        vsauceBtn.textContent = '📺 WATCH VSAUCE';
+        vsauceBtn.addEventListener('click', () => {
+            window.open('https://www.youtube.com/watch?v=qjfaoe847qQ', '_blank');
+        });
+        actionsEl.appendChild(vsauceBtn);
+    }
+    
     detailPanel.classList.remove('hidden');
 }
 
