@@ -6,28 +6,22 @@ const poemsData = [
         text: `sinu jaoks kerkivad mäed
 ja sinu jaoks voolavad ojad
 
-
 sinule naeravad lilled
 sinule laulavad luiged
 
-
 lase siis ka mul
 vormuda mägede järgi
-
 
 moodusatada ehataeva kui sina hõikad
 rõõmust või ängist
 murest või hirmust
 
-
 et sind õhtuhämaruses kuulata
 jääda seisma metsa veerel
 sulle tagasi ümiseda
 
-
 et sina puude kohinat kuuleksid
 ja tunneksid tõesti kuidas
-
 
 sinu jaoks kajavad mäed
 ja vulisevad ojad`
@@ -45,22 +39,17 @@ ja vulisevad ojad`
         text: `iga mehe unistus on ununeda unustusse
 kinni panna silmad, tunda pehmet mulda
 
-
 tunda kuidas ussid ihu nosivad
 siseorganeid ahnitsevad 
-
 
 tead su elu õnnestunud kui leiad end kõdunemas
 näed habrast keha kesk kevadisi kaseoksi
 
-
 tunned kuidas sipelgad su ninasõõrmeid silitavad
 mutid uusi teid rajavad
 
-
 iga mees ihkab plahvatavalt karjatada
 näidata hetkeks et ta on olemas
-
 
 ja siis lahtuda hommikusse kastesse`
     },
@@ -70,10 +59,8 @@ ja siis lahtuda hommikusse kastesse`
         date: '2025',
         text: `mis on inimene
 
-
 kas plahvatus mis õhku paiskab 
 siidpehmet aroomi
-
 
 või komistus mis kukkudes jõuab veel
 metsa hõigata läbilõikavat ulgu
