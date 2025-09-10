@@ -1145,6 +1145,52 @@ body {
         7px 7px 35px rgba(126, 179, 70, 0.6);
 }
 
+.thought-trigger {
+    background: radial-gradient(circle, var(--moss), var(--sage-green));
+    border: 3px solid var(--shadow);
+    color: var(--dark-forest);
+    padding: 15px 25px;
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-family: 'Courier New', monospace;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    margin-left: 10px;
+}
+
+.thought-trigger:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 
+        7px 7px 0 var(--shadow),
+        7px 7px 35px rgba(126, 179, 70, 0.6);
+}
+
+.youtube-trigger {
+    background: linear-gradient(45deg, var(--bark-brown), var(--deep-green));
+    border: 3px solid var(--shadow);
+    color: var(--sage-green);
+    padding: 15px 25px;
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-family: 'Courier New', monospace;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.youtube-trigger:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 
+        7px 7px 0 var(--shadow),
+        7px 7px 35px rgba(74, 124, 46, 0.6);
+    background: linear-gradient(45deg, #4a3c2a, var(--bark-brown));
+}
+
 /* Scrollbar styling for profile container */
 .profile-container::-webkit-scrollbar {
     width: 8px;
