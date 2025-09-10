@@ -247,6 +247,14 @@ function showNodeDetail(node) {
             openMindProfile();
         });
         actionsEl.appendChild(mindBtn);
+        
+        const thoughtBtn = document.createElement('button');
+        thoughtBtn.className = 'thought-trigger';
+        thoughtBtn.textContent = '💭 RANDOM THOUGHT';
+        thoughtBtn.addEventListener('click', () => {
+            showRandomThought();
+        });
+        actionsEl.appendChild(thoughtBtn);
     }
     
     // Add special button for YouTube Depths node
@@ -511,6 +519,110 @@ function openRandomYouTubeVideo() {
     
     const randomVideo = videos2010s[Math.floor(Math.random() * videos2010s.length)];
     window.open(randomVideo, '_blank');
+}
+
+// Random thoughts functionality
+function showRandomThought() {
+    const thoughts = [
+        "Maybe you can just say stuff. Say the uncomfortable thing. Even if you don't know how it's going to go. Jump into the void. Maybe you can be direct.",
+        
+        "Maybe you can just embrace the fact that you don't feel real. Maybe you don't need the crutch, maybe you can just let go.",
+        
+        "Remind yourself that you can mention the things that bring disconnect. And then they disappear. And connection emerges naturally.",
+        
+        "Kõik algab.",
+        
+        `"Stand still. The trees ahead and bushes beside you
+Are not lost. Wherever you are is called Here,
+And you must treat it as a powerful stranger,
+Must ask permission to know it and be known.
+The forest breathes. Listen. It answers,
+I have made this place around you.
+If you leave it, you may come back again, saying Here.
+No two trees are the same to Raven.
+No two branches are the same to Wren.
+If what a tree or a bush does is lost on you,
+You are surely lost. Stand still. The forest knows
+Where you are. you must let it find you."
+
+- David Wagoner`,
+        
+        "maybe death isn't so tragic. like a leaf falling down in autumn. it just is. all things must come to an end. maybe we would be a happier and healthier society if we took death as the natural occurance as it is -- we wouldn't cling so hard on life in our final moments - being able to let go better -- and we woudn't spend needless resources keeping people alive even through suffering",
+        
+        "pretty sure we can fix the school system by teaching people to listen to their wants and needs and going through that instead of teaching them obedience and sitting still. im sure places like waldorf school have learned this already. this should be mainstream"
+    ];
+    
+    const randomThought = thoughts[Math.floor(Math.random() * thoughts.length)];
+    
+    // Create a modal overlay
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(13, 31, 13, 0.95);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        backdrop-filter: blur(3px);
+    `;
+    
+    const thoughtBox = document.createElement('div');
+    thoughtBox.style.cssText = `
+        background: var(--deep-green);
+        border: 2px solid var(--sage-green);
+        border-radius: 8px;
+        padding: 30px;
+        max-width: 600px;
+        max-height: 80vh;
+        overflow-y: auto;
+        color: var(--sage-green);
+        font-family: 'Courier New', monospace;
+        font-size: 16px;
+        line-height: 1.6;
+        white-space: pre-line;
+        text-align: center;
+    `;
+    
+    thoughtBox.textContent = randomThought;
+    
+    // Add close button
+    const closeButton = document.createElement('button');
+    closeButton.textContent = '×';
+    closeButton.style.cssText = `
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        background: none;
+        border: none;
+        color: var(--sage-green);
+        font-size: 24px;
+        cursor: pointer;
+        opacity: 0.7;
+    `;
+    closeButton.addEventListener('click', () => modal.remove());
+    
+    thoughtBox.style.position = 'relative';
+    thoughtBox.appendChild(closeButton);
+    modal.appendChild(thoughtBox);
+    
+    // Close on click outside
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.remove();
+    });
+    
+    // Close on escape key
+    document.addEventListener('keydown', function escapeHandler(e) {
+        if (e.key === 'Escape') {
+            modal.remove();
+            document.removeEventListener('keydown', escapeHandler);
+        }
+    });
+    
+    document.body.appendChild(modal);
 }
 
 // Initialize when DOM is ready
