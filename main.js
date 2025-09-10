@@ -284,6 +284,25 @@ function showNodeDetail(node) {
         actionsEl.appendChild(atheneBtn);
     }
     
+    // Add special buttons for Effective Altruism node
+    if (node.id === 'effective-altruism') {
+        const eaVideoBtn = document.createElement('button');
+        eaVideoBtn.className = 'youtube-trigger';
+        eaVideoBtn.textContent = '📺 EA INTRO VIDEO';
+        eaVideoBtn.addEventListener('click', () => {
+            window.open('https://www.youtube.com/watch?v=WyprXhvGVYk', '_blank');
+        });
+        actionsEl.appendChild(eaVideoBtn);
+        
+        const eaEstoniaBtn = document.createElement('button');
+        eaEstoniaBtn.className = 'mind-trigger';
+        eaEstoniaBtn.textContent = '🌐 EA ESTONIA';
+        eaEstoniaBtn.addEventListener('click', () => {
+            window.open('https://www.efektiivnealtruism.org/', '_blank');
+        });
+        actionsEl.appendChild(eaEstoniaBtn);
+    }
+    
     detailPanel.classList.remove('hidden');
 }
 
