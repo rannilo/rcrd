@@ -15,7 +15,27 @@ const poemsData = [
         id: 'kuhu-edasi',
         title: 'KUHU EDASI',
         date: '2025',
-        text: `iga mehe unistus...`
+        text: `iga mehe unistus on ununeda unustusse
+kinni panna silmad, tunda pehmet mulda
+
+
+tunda kuidas ussid ihu nosivad
+siseorganeid ahnitsevad 
+
+
+tead su elu õnnestunud kui leiad end kõdunemas
+näed habrast keha kesk kevadisi kaseoksi
+
+
+tunned kuidas sipelgad su ninasõõrmeid silitavad
+mutid uusi teid rajavad
+
+
+iga mees ihkab plahvatavalt karjatada
+näidata hetkeks et ta on olemas
+
+
+ja siis lahtuda hommikusse kastesse`
     },
     {
         id: 'mis-on-inimene',
