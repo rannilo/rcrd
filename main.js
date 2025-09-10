@@ -249,6 +249,17 @@ function showNodeDetail(node) {
         actionsEl.appendChild(mindBtn);
     }
     
+    // Add special button for YouTube Depths node
+    if (node.id === 'youtube-depths') {
+        const youtubeBtn = document.createElement('button');
+        youtubeBtn.className = 'youtube-trigger';
+        youtubeBtn.textContent = '📺 RANDOM 2010s VIDEO';
+        youtubeBtn.addEventListener('click', () => {
+            openRandomYouTubeVideo();
+        });
+        actionsEl.appendChild(youtubeBtn);
+    }
+    
     detailPanel.classList.remove('hidden');
 }
 
@@ -487,6 +498,19 @@ function populateAncestors() {
         
         grid.appendChild(card);
     });
+}
+
+// YouTube Depths functionality
+function openRandomYouTubeVideo() {
+    const videos2010s = [
+        'https://www.youtube.com/watch?v=4UdEFmxRmNE', // Yogscast, shadow of israphel part 1
+        'https://www.youtube.com/watch?v=B36Ehzf2cxE', // paulsoaresjr minecraft tutorial video
+        'https://www.youtube.com/watch?v=Uw7e5PCbKgE', // smosh food battle 2011
+        'https://www.youtube.com/watch?v=NTTJcz0rqco'  // jack and dean fac-e-book
+    ];
+    
+    const randomVideo = videos2010s[Math.floor(Math.random() * videos2010s.length)];
+    window.open(randomVideo, '_blank');
 }
 
 // Initialize when DOM is ready

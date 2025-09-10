@@ -9,467 +9,241 @@ const thoughtsData = {
             description: 'The central nexus of interconnected thoughts',
             tags: ['origin', 'self']
         },
-        
-        // Ethics branches
         {
-            id: 'utilitarianism',
-            label: 'UTILITARIANISM',
-            type: 'concept',
+            id: 'poetry',
+            label: 'POETRY',
+            type: 'art',
             parent: 'root',
-            description: 'The greatest good for the greatest number',
-            tags: ['ethics', 'bentham', 'mill']
+            description: 'Poetic expression and language play',
+            tags: ['writing', 'expression', 'language']
         },
         {
-            id: 'consequentialism',
-            label: 'CONSEQUENTIALISM',
+            id: 'youtube-depths',
+            label: 'YOUTUBE DEPTHS',
             type: 'concept',
             parent: 'root',
-            description: 'Judging actions by their outcomes and consequences',
-            tags: ['ethics', 'outcomes', 'results']
+            description: 'The primordial ooze of random algorithms in the dark depths of the subconscious',
+            tags: ['subconscious', 'algorithms', 'depths', 'primordial']
         },
         {
-            id: 'ea',
+            id: 'vsauce',
+            label: 'VSAUCE',
+            type: 'experience',
+            parent: 'youtube-depths',
+            description: 'Michael here! Educational content from the depths',
+            tags: ['education', 'curiosity', 'science']
+        },
+        {
+            id: 'jack-and-dean',
+            label: 'JACK AND DEAN',
+            type: 'experience',
+            parent: 'youtube-depths',
+            description: 'British comedy duo from the algorithm depths',
+            tags: ['comedy', 'british', 'sketches']
+        },
+        {
+            id: 'athene',
+            label: 'ATHENE',
+            type: 'thinker',
+            parent: 'youtube-depths',
+            description: 'Controversial gamer and record breaker with incredible mathematical mind, devoted to saving lives from poverty. Taught the mission of doing the most good possible - that having a valuable mission makes for a valuable life.',
+            tags: ['mission', 'mathematics', 'poverty', 'good', 'life-purpose', 'foundational']
+        },
+        {
+            id: 'dd-academy',
+            label: 'DD ACADEMY',
+            type: 'experience',
+            parent: 'athene',
+            description: 'Youth educational program disguised as self-development that teaches the importance of open society and democracy through Karl Popper\'s lens.',
+            tags: ['education', 'open-society', 'democracy', 'popper']
+        },
+        {
+            id: 'open-society',
+            label: 'OPEN SOCIETY',
+            type: 'concept',
+            parent: 'dd-academy',
+            description: 'Karl Popper\'s philosophy: revolutions are bad, nobody knows how the world works, so change it step by step, not all at once, because you cannot know the consequences.',
+            tags: ['popper', 'gradual-change', 'epistemology', 'democracy', 'anti-revolution']
+        },
+        {
+            id: 'effective-altruism',
             label: 'EFFECTIVE ALTRUISM',
-            type: 'movement',
-            parent: 'root',
-            description: 'Using evidence and careful reasoning to figure out the best ways of improving the world. Organized EA Tartu and EA Estonia from 2018 to 2023.',
-            tags: ['altruism', 'evidence', 'impact', 'estonia']
-        },
-        {
-            id: 'singer',
-            label: 'PETER SINGER',
-            type: 'thinker',
-            parent: 'ea',
-            description: 'Practical ethics, animal liberation, effective giving',
-            tags: ['ethics', 'animals', 'poverty']
-        },
-        {
-            id: 'macaskill',
-            label: 'WILL MACASKILL',
-            type: 'thinker',
-            parent: 'ea',
-            description: 'Longtermism, doing good better, moral philosophy',
-            tags: ['longtermism', 'careers', 'impact']
-        },
-        {
-            id: 'doing-good-better',
-            label: 'DOING GOOD BETTER',
-            type: 'book',
-            parent: 'macaskill',
-            description: 'William MacAskill\'s introduction to effective altruism',
-            tags: ['introduction', 'careers', 'charity']
-        },
-        {
-            id: 'ord',
-            label: 'TOBY ORD',
-            type: 'thinker',
-            parent: 'ea',
-            description: 'Existential risk, the precipice, long-term future of humanity',
-            tags: ['x-risk', 'future', 'catastrophe']
-        },
-        {
-            id: 'precipice',
-            label: 'THE PRECIPICE',
-            type: 'book',
-            parent: 'ord',
-            description: 'Toby Ord\'s book on existential risk and humanity\'s future',
-            tags: ['x-risk', 'future', 'catastrophe']
-        },
-        
-        // Longtermism branch
-        {
-            id: 'longtermism',
-            label: 'LONGTERMISM',
-            type: 'concept',
-            parent: 'ea',
-            description: 'Prioritizing the long-term future of humanity and sentient life',
-            tags: ['future', 'x-risk', 'generations']
-        },
-        {
-            id: 'ai-safety',
-            label: 'AI SAFETY',
-            type: 'concept',
-            parent: 'longtermism',
-            description: 'Ensuring advanced AI systems are aligned with human values',
-            tags: ['alignment', 'x-risk', 'AGI']
-        },
-        {
-            id: 'bostrom',
-            label: 'NICK BOSTROM',
-            type: 'thinker',
-            parent: 'longtermism',
-            description: 'Existential risk, superintelligence, simulation hypothesis',
-            tags: ['x-risk', 'superintelligence', 'philosophy']
-        },
-        {
-            id: 'superintelligence',
-            label: 'SUPERINTELLIGENCE',
-            type: 'book',
-            parent: 'ai-safety',
-            description: 'Paths, dangers, strategies for artificial general intelligence',
-            tags: ['AGI', 'x-risk', 'control']
-        },
-        {
-            id: 'alignment-problem',
-            label: 'ALIGNMENT PROBLEM',
-            type: 'concept',
-            parent: 'ai-safety',
-            description: 'The challenge of ensuring AI systems pursue intended goals',
-            tags: ['alignment', 'control', 'values']
-        },
-        
-        // Rationality branch
-        {
-            id: 'rationality',
-            label: 'RATIONALITY',
             type: 'branch',
-            parent: 'ea',
-            description: 'The art of thinking clearly and making better decisions',
-            tags: ['thinking', 'biases', 'reasoning']
+            parent: 'athene',
+            description: 'A community and philosophy that uses evidence and careful reasoning to figure out how to do the most good. Discovered through chance encounter at DD Academy conference. Has guided and influenced my life ever since.',
+            tags: ['altruism', 'evidence', 'reasoning', 'movement', 'doing-good', 'life-guiding']
         },
         {
-            id: 'lesswrong',
-            label: 'LESSWRONG',
+            id: 'ea-tartu',
+            label: 'EA TARTU',
             type: 'community',
-            parent: 'rationality',
-            description: 'Online forum for rationality, AI safety, and clear thinking',
-            tags: ['community', 'blog', 'discussion']
+            parent: 'effective-altruism',
+            description: 'Local EA city group joined to organize events and build community around effective giving and impact.',
+            tags: ['community', 'tartu', 'organizing', 'events', 'estonia']
         },
         {
-            id: 'yudkowsky',
-            label: 'YUDKOWSKY SEQUENCES',
-            type: 'book',
-            parent: 'rationality',
-            description: 'Foundational essays on rationality, probability, and AI',
-            tags: ['sequences', 'bayes', 'thinking']
-        },
-        {
-            id: 'cfar',
-            label: 'CFAR WORKSHOP',
+            id: 'ea-estonia',
+            label: 'EA ESTONIA',
             type: 'experience',
-            parent: 'rationality',
-            description: 'Center for Applied Rationality workshop attendance',
-            tags: ['workshop', 'techniques', 'practice']
+            parent: 'ea-tartu',
+            description: 'Joined and led EA Estonia, building it to ~60 members - making it by far the largest EA group per capita in the world. Led until boredom set in, then moved to more cause-specific activities.',
+            tags: ['leadership', 'community-building', 'estonia', 'record-breaking', 'per-capita', 'meta-EA']
         },
         {
-            id: 'post-rat',
-            label: 'POST-RATIONALITY',
-            type: 'concept',
-            parent: 'rationality',
-            description: 'TPOT scene, vibes-based epistemology, embodied cognition',
-            tags: ['tpot', 'twitter', 'vibes', 'meta-rationality']
-        },
-        {
-            id: 'practical-dharma',
-            label: 'PRACTICAL DHARMA',
-            type: 'concept',
-            parent: 'post-rat',
-            description: 'Modern, pragmatic approach to meditation and awakening',
-            tags: ['dharma', 'awakening', 'pragmatic']
-        },
-        {
-            id: 'phenomenology',
-            label: 'PHENOMENOLOGY OF EXPERIENCE',
-            type: 'concept',
-            parent: 'post-rat',
-            description: 'Direct investigation of conscious experience and qualia',
-            tags: ['consciousness', 'experience', 'qualia', 'phenomenology']
-        },
-        
-        // CFAR leads to cognitive science insights
-        {
-            id: 'kahneman',
-            label: 'THINKING FAST AND SLOW',
-            type: 'book',
-            parent: 'cfar',
-            description: 'Dual process theory, cognitive biases, behavioral economics',
-            tags: ['psychology', 'biases', 'decisions']
-        },
-        {
-            id: 's1-s2',
-            label: 'SYSTEM 1 VS SYSTEM 2',
-            type: 'concept',
-            parent: 'cfar',
-            description: 'Fast intuitive vs slow deliberative thinking',
-            tags: ['cognition', 'thinking', 'dual-process']
-        },
-        {
-            id: 'intuition',
-            label: 'INTUITION',
-            type: 'concept',
-            parent: 's1-s2',
-            description: 'Learning to use intuition for decision making and information processing',
-            tags: ['gut-feeling', 'heuristics', 'tacit-knowledge']
-        },
-        
-        // Work Experience - under AI Safety
-        {
-            id: 'control-ai',
-            label: 'CONTROL AI',
-            type: 'experience',
-            parent: 'ai-safety',
-            description: 'Activism-type targeted interventions to increase AI safety',
-            tags: ['activism', 'ai-safety', 'intervention']
+            id: 'ai-policy-exploration',
+            label: 'AI POLICY & ACTIVISM',
+            type: 'branch',
+            parent: 'ea-estonia',
+            description: 'Exploring the AI policy and activism route through various organizations. Didn\'t end up being my jam, though the activist groups are still dear to my heart.',
+            tags: ['ai-policy', 'activism', 'exploration', 'not-my-jam']
         },
         {
             id: 'pause-ai',
             label: 'PAUSE AI',
             type: 'experience',
-            parent: 'ai-safety',
-            description: 'Protests and volunteer movement to increase AI safety',
-            tags: ['protests', 'movement', 'ai-safety']
+            parent: 'ai-policy-exploration',
+            description: 'AI safety activist organization focused on pausing dangerous AI development.',
+            tags: ['activism', 'ai-safety', 'pause', 'movement']
         },
         {
-            id: 'moj-estonia',
+            id: 'control-ai',
+            label: 'CONTROL AI',
+            type: 'experience',
+            parent: 'ai-policy-exploration',
+            description: 'Little stint in Control AI - targeted interventions for AI safety.',
+            tags: ['activism', 'ai-safety', 'intervention', 'brief']
+        },
+        {
+            id: 'ministry-justice',
             label: 'MINISTRY OF JUSTICE',
             type: 'experience',
-            parent: 'ai-safety',
-            description: 'Internship working on EU AI Act implementation in Estonia',
-            tags: ['policy', 'EU', 'regulation', 'estonia']
+            parent: 'ai-policy-exploration',
+            description: 'Internship at Estonian Ministry of Justice working on AI policy.',
+            tags: ['internship', 'estonia', 'government', 'policy']
         },
         {
-            id: 'convergence',
+            id: 'convergence-analysis',
             label: 'CONVERGENCE ANALYSIS',
             type: 'experience',
-            parent: 'ai-safety',
-            description: 'Research assistant working on high-level AI policy strategy (until May 2024)',
-            tags: ['research', 'policy', 'strategy', 'ai-governance']
-        },
-        
-        // Vibes and Inner Work
-        {
-            id: 'emotions',
-            label: 'VIBES',
-            type: 'concept',
-            parent: 'root',
-            description: 'Listening to emotions more, being conscious of vibes',
-            tags: ['feelings', 'intuition', 'awareness']
-        },
-        {
-            id: 'jung',
-            label: 'JUNGIAN THINKING',
-            type: 'concept',
-            parent: 'emotions',
-            description: 'Archetypes, myths, stories as metaphors for the subconscious',
-            tags: ['archetypes', 'unconscious', 'mythology']
-        },
-        {
-            id: 'maps-of-meaning',
-            label: 'MAPS OF MEANING',
-            type: 'book',
-            parent: 'jung',
-            description: 'Peterson\'s lecture series on Jungian interpretation of stories and myths',
-            tags: ['peterson', 'mythology', 'psychology', 'meaning']
-        },
-        {
-            id: 'biblical-stories',
-            label: 'BIBLICAL STORIES',
-            type: 'book',
-            parent: 'jung',
-            description: 'Peterson\'s biblical series analyzing stories through Jungian lens',
-            tags: ['peterson', 'bible', 'stories', 'psychology']
-        },
-        {
-            id: 'dreams',
-            label: 'DREAMS',
-            type: 'concept',
-            parent: 'emotions',
-            description: 'Interest in dreams, lucid dreaming experiments',
-            tags: ['lucid-dreaming', 'unconscious', 'exploration']
+            parent: 'ai-policy-exploration',
+            description: 'Working in convergence analysis to explore AI policy landscape.',
+            tags: ['analysis', 'policy', 'research', 'ai-governance']
         },
         {
             id: 'the-garden',
             label: 'THE GARDEN',
             type: 'community',
-            parent: 'emotions',
-            description: 'Post-rat adjacent in-person community of tech-y hippies in Portugal - https://in.thegarden.pt/',
-            tags: ['community', 'portugal', 'post-rat', 'hippies']
+            parent: 'ai-policy-exploration',
+            description: 'Went to The Garden in Portugal to discover communal living. A place of many other "post-EAs" or "post-rationalists" - people with similar paths. https://thegarden.pt/',
+            tags: ['portugal', 'communal-living', 'post-EA', 'post-rationalist', 'community']
         },
         {
-            id: 'music',
-            label: 'MUSIC',
-            type: 'art',
-            parent: 'emotions',
-            description: 'Musical exploration and expression',
-            tags: ['expression', 'creativity', 'sound']
+            id: 'embodiment',
+            label: 'EMBODIMENT',
+            type: 'concept',
+            parent: 'the-garden',
+            description: 'Discovering you have a body and feelings. Learning to integrate them, listen to them, be more in tune with them. Acting from sincere passion and joy rather than externally imposed urgency or obligation.',
+            tags: ['body', 'feelings', 'integration', 'passion', 'joy', 'authentic-action', 'anti-obligation']
         },
         {
-            id: 'poetry',
-            label: 'POETRY',
-            type: 'art',
-            parent: 'emotions',
-            description: 'Poetic expression and language play',
-            tags: ['writing', 'expression', 'language']
-        },
-        
-        // Meditation branch
-        {
-            id: 'meditation',
-            label: 'MEDITATION',
-            type: 'branch',
-            parent: 'root',
-            description: 'Contemplative practices and phenomenological exploration',
-            tags: ['mindfulness', 'contemplation', 'practice']
-        },
-        {
-            id: 'concentration',
-            label: 'CONCENTRATION',
-            type: 'practice',
-            parent: 'meditation',
-            description: 'Concentration practices, focus training',
-            tags: ['samatha', 'focus', 'stability']
-        },
-        {
-            id: 'waking-up',
-            label: 'WAKING UP',
-            type: 'resource',
-            parent: 'meditation',
-            description: 'Sam Harris\' Waking Up app',
-            tags: ['app', 'guided', 'secular']
-        },
-        {
-            id: 'vipassana',
-            label: 'VIPASSANA',
-            type: 'experience',
-            parent: 'meditation',
-            description: 'Goenka Vipassana courses (2020, 2023, 2024)',
-            tags: ['retreat', 'goenka', 'insight']
-        },
-        {
-            id: 'theravada',
-            label: 'ESTONIAN SANGHA',
+            id: 'casa-tilo',
+            label: 'CASA TILO',
             type: 'community',
-            parent: 'meditation',
-            description: 'Estonian Theravada Sangha - https://www.sangha.ee/',
-            tags: ['buddhism', 'community', 'estonia', 'sangha']
+            parent: 'the-garden',
+            description: 'Richard Bartlett\'s coliving retreat space - another cool exploration from The Garden network.',
+            tags: ['coliving', 'retreat', 'richard-bartlett', 'to-explore', 'garden-network']
         },
         {
-            id: 'burbea',
-            label: 'ROB BURBEA',
-            type: 'thinker',
-            parent: 'practical-dharma',
-            description: 'Emptiness, imaginal practice, seeing through views',
-            tags: ['emptiness', 'imaginal', 'dharma']
+            id: 'kanthaus',
+            label: 'KANTHAUS',
+            type: 'community',
+            parent: 'the-garden',
+            description: 'Seems pretty cool - another space in the post-rationalist network to explore.',
+            tags: ['community', 'post-rationalist', 'to-explore', 'seems-cool']
         },
         {
-            id: 'seeing-that-frees',
-            label: 'SEEING THAT FREES',
-            type: 'book',
-            parent: 'practical-dharma',
-            description: 'Rob Burbea\'s book on emptiness and liberation',
-            tags: ['emptiness', 'liberation', 'practice']
+            id: 'tpot-scene',
+            label: 'TPOT TWITTER SCENE',
+            type: 'community',
+            parent: 'the-garden',
+            description: 'The post-rationalist This Part of Twitter scene with all its workshops, people, and meetups.',
+            tags: ['tpot', 'twitter', 'post-rationalist', 'workshops', 'meetups', 'scene']
         },
         {
-            id: 'tmi',
-            label: 'MIND ILLUMINATED',
-            type: 'book',
-            parent: 'practical-dharma',
-            description: 'The Mind Illuminated - systematic meditation guide',
-            tags: ['culadasa', 'stages', 'systematic']
+            id: 'vipassana-retreats',
+            label: 'GOENKA VIPASSANA',
+            type: 'experience',
+            parent: 'embodiment',
+            description: 'Vipassana retreats discovering that thoughts are not me, feelings are not me, everything is just tiny vibrations and nothing is really that serious. Serious realization.',
+            tags: ['meditation', 'vipassana', 'goenka', 'not-self', 'vibrations', 'perspective', 'retreat']
         },
         {
-            id: 'qri',
-            label: 'QUALIA RESEARCH',
-            type: 'organization',
-            parent: 'phenomenology',
-            description: 'Qualia Research Institute - consciousness research',
-            tags: ['consciousness', 'phenomenology', 'valence']
-        },
-        {
-            id: 'thisdell',
+            id: 'roger-thisdell',
             label: 'ROGER THISDELL',
             type: 'thinker',
-            parent: 'practical-dharma',
-            description: 'Very transparent phenomenological descriptions',
-            tags: ['phenomenology', 'clarity', 'maps']
+            parent: 'vipassana-retreats',
+            description: 'Currently following Roger Thisdell\'s "streamlined" guide to enlightenment which focuses on noticing. Trying that approach out.',
+            tags: ['enlightenment', 'noticing', 'streamlined', 'current-practice', 'meditation-guide']
         },
         {
-            id: 'noting',
-            label: 'NOTING PRACTICE',
-            type: 'practice',
-            parent: 'meditation',
-            description: 'Noting and noticing, arising and passing of phenomena',
-            tags: ['vipassana', 'awareness', 'impermanence']
+            id: 'jungian-thinking',
+            label: 'JUNGIAN THINKING',
+            type: 'concept',
+            parent: 'embodiment',
+            description: 'Thinking about vibes and energies as different creatures, beings, or voices (like Internal Family Systems). Understanding how mythology and religious stories help us know ourselves through archetypes - like Mars as archetypal aggression present in all of us.',
+            tags: ['jung', 'archetypes', 'internal-family-systems', 'mythology', 'creatures', 'energies', 'mars']
+        },
+        {
+            id: 'mythology-folklore',
+            label: 'MYTHS & FOLKLORE',
+            type: 'concept',
+            parent: 'jungian-thinking',
+            description: 'Getting curious about myths, folklore, and religious texts as ways to understand archetypal energies and patterns within ourselves.',
+            tags: ['mythology', 'folklore', 'religious-texts', 'archetypes', 'curiosity', 'self-understanding']
+        },
+        {
+            id: 'estonian-folklore',
+            label: 'ESTONIAN FOLKLORE',
+            type: 'concept',
+            parent: 'mythology-folklore',
+            description: 'Exploring Estonian and Finno-Ugric folklore and traditions. Currently interested in Estonian runosong (regilaul) - the traditional singing tradition.',
+            tags: ['estonia', 'finno-ugric', 'regilaul', 'runosong', 'traditions', 'current-exploration']
+        },
+        {
+            id: 'alternative-politics',
+            label: 'ALTERNATIVE POLITICS',
+            type: 'concept',
+            parent: 'root',
+            description: 'Soft interest in communism and alternative political systems. How to solve something more fundamental than just "poverty" - how to fundamentally change people\'s values so they build and keep building a better world for everyone, emotionally and physically.',
+            tags: ['politics', 'communism', 'systemic-change', 'values', 'meta-solutions', 'better-world']
+        },
+        {
+            id: 'communist-bookclub',
+            label: 'COMMUNIST BOOKCLUB',
+            type: 'community',
+            parent: 'alternative-politics',
+            description: 'Invited by a friend (associated with post-EA folk). Reading and discussing works like Mark Fisher, Yanis Varoufakis, Slavoj Žižek and similar thinkers.',
+            tags: ['bookclub', 'mark-fisher', 'varoufakis', 'zizek', 'post-ea-adjacent', 'discussion']
+        },
+        {
+            id: 'ideology-awareness',
+            label: 'IDEOLOGY AWARENESS',
+            type: 'concept',
+            parent: 'communist-bookclub',
+            description: 'Žižek\'s way of thinking about ideologies - how we all have one, and it\'s about being aware of your own. The invisible thing that guides the way you do things, be it efficiency or individualism or hedonism.',
+            tags: ['zizek', 'ideology', 'awareness', 'invisible-frameworks', 'efficiency', 'individualism', 'hedonism']
+        },
+        {
+            id: 'spiral-hydrogen',
+            label: 'SPIRAL HYDROGEN',
+            type: 'experience',
+            parent: 'root',
+            description: 'Estonian startup doing novel hydrogen electrolyzers that are gonna change the world. Where I work now.',
+            tags: ['startup', 'hydrogen', 'electrolyzers', 'estonia', 'current-work', 'world-changing']
         }
     ],
     
-    connections: [
-        // EA connections
-        { from: 'utilitarianism', to: 'ea', strength: 0.9 },
-        { from: 'consequentialism', to: 'ea', strength: 0.9 },
-        { from: 'singer', to: 'utilitarianism', strength: 0.8 },
-        { from: 'macaskill', to: 'ord', strength: 0.7 },
-        
-        // Longtermism and AI Safety connections
-        { from: 'ea', to: 'longtermism', strength: 0.9 },
-        { from: 'longtermism', to: 'ai-safety', strength: 0.9 },
-        { from: 'bostrom', to: 'superintelligence', strength: 0.9 },
-        { from: 'bostrom', to: 'ai-safety', strength: 0.8 },
-        { from: 'macaskill', to: 'longtermism', strength: 0.9 },
-        { from: 'ord', to: 'longtermism', strength: 0.8 },
-        
-        // Rationality connections
-        { from: 'rationality', to: 'lesswrong', strength: 0.9 },
-        { from: 'rationality', to: 'yudkowsky', strength: 0.9 },
-        { from: 'rationality', to: 'cfar', strength: 0.8 },
-        { from: 'yudkowsky', to: 'lesswrong', strength: 0.9 },
-        
-        // Rationality to AI Safety
-        { from: 'rationality', to: 'ai-safety', strength: 0.8 },
-        { from: 'lesswrong', to: 'ai-safety', strength: 0.8 },
-        { from: 'yudkowsky', to: 'ai-safety', strength: 0.9 },
-        
-        // Cognitive Science connections
-        { from: 'kahneman', to: 's1-s2', strength: 0.9 },
-        { from: 'kahneman', to: 'rationality', strength: 0.8 },
-        { from: 's1-s2', to: 'rationality', strength: 0.7 },
-        { from: 's1-s2', to: 'cfar', strength: 0.8 },
-        { from: 'kahneman', to: 'cfar', strength: 0.7 },
-        { from: 's1-s2', to: 'intuition', strength: 0.9 },
-        { from: 'intuition', to: 'cfar', strength: 0.7 },
-        
-        // Work experience connections
-        { from: 'control-ai', to: 'pause-ai', strength: 0.7 },
-        { from: 'moj-estonia', to: 'convergence', strength: 0.6 },
-        
-        // Vibes connections
-        { from: 's1-s2', to: 'emotions', strength: 0.7 },
-        { from: 'intuition', to: 'emotions', strength: 0.8 },
-        { from: 'emotions', to: 'jung', strength: 0.9 },
-        { from: 'emotions', to: 'dreams', strength: 0.8 },
-        { from: 'jung', to: 'dreams', strength: 0.7 },
-        { from: 'post-rat', to: 'the-garden', strength: 0.7 },
-        { from: 'the-garden', to: 'emotions', strength: 0.8 },
-        
-        // Meditation connections
-        { from: 'meditation', to: 'concentration', strength: 0.9 },
-        { from: 'meditation', to: 'waking-up', strength: 0.7 },
-        { from: 'meditation', to: 'vipassana', strength: 0.9 },
-        { from: 'vipassana', to: 'theravada', strength: 0.7 },
-        { from: 'meditation', to: 'noting', strength: 0.8 },
-        { from: 'vipassana', to: 'noting', strength: 0.9 },
-        
-        // Practical Dharma connections
-        { from: 'practical-dharma', to: 'burbea', strength: 0.9 },
-        { from: 'practical-dharma', to: 'tmi', strength: 0.9 },
-        { from: 'practical-dharma', to: 'thisdell', strength: 0.8 },
-        { from: 'practical-dharma', to: 'seeing-that-frees', strength: 0.9 },
-        { from: 'burbea', to: 'seeing-that-frees', strength: 0.9 },
-        { from: 'burbea', to: 'thisdell', strength: 0.6 },
-        { from: 'concentration', to: 'tmi', strength: 0.7 },
-        { from: 'practical-dharma', to: 'meditation', strength: 0.7 },
-        
-        // Phenomenology connections
-        { from: 'phenomenology', to: 'qri', strength: 0.9 },
-        { from: 'qri', to: 'thisdell', strength: 0.7 },
-        
-        // Cross-connections
-        { from: 'emotions', to: 'meditation', strength: 0.7 },
-        { from: 'meditation', to: 'intuition', strength: 0.6 },
-        { from: 'post-rat', to: 'emotions', strength: 0.8 },
-        { from: 'post-rat', to: 'intuition', strength: 0.7 },
-        { from: 'phenomenology', to: 'meditation', strength: 0.6 }
-    ]
+    connections: []
 };
 
 // Color mapping for different node types
