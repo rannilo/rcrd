@@ -273,6 +273,17 @@ function showNodeDetail(node) {
         actionsEl.appendChild(vsauceBtn);
     }
     
+    // Add special button for Athene node
+    if (node.id === 'athene') {
+        const atheneBtn = document.createElement('button');
+        atheneBtn.className = 'youtube-trigger';
+        atheneBtn.textContent = '🎬 ATHENE DOCUMENTARY';
+        atheneBtn.addEventListener('click', () => {
+            window.open('https://www.youtube.com/watch?v=0BASxCHC9VI', '_blank');
+        });
+        actionsEl.appendChild(atheneBtn);
+    }
+    
     detailPanel.classList.remove('hidden');
 }
 
