@@ -84,11 +84,11 @@ ja siis lahtuda hommikusse kastesse`
         date: '2025',
         text: `mis on inimene
 
-kas plahvatus mis õhku paiskab 
-siidpehmet aroomi
+kas plahvatus mis õhku paiskab
+    siidpehmet aroomi
 
 või komistus mis kukkudes jõuab veel
-metsa hõigata läbilõikavat ulgu
+    metsa hõigata läbilõikavat ulgu
     
 et siis kuuskedelt tagasi kajades 
       taevasse hajuda`
