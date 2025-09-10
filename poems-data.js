@@ -3,7 +3,34 @@ const poemsData = [
         id: 'uheksas-kiri',
         title: 'ÜHEKSAS KIRI INGILE',
         date: '2025',
-        text: `sinu jaoks kerkivad mäed...`
+        text: `sinu jaoks kerkivad mäed
+ja sinu jaoks voolavad ojad
+
+
+sinule naeravad lilled
+sinule laulavad luiged
+
+
+lase siis ka mul
+vormuda mägede järgi
+
+
+moodusatada ehataeva kui sina hõikad
+rõõmust või ängist
+murest või hirmust
+
+
+et sind õhtuhämaruses kuulata
+jääda seisma metsa veerel
+sulle tagasi ümiseda
+
+
+et sina puude kohinat kuuleksid
+ja tunneksid tõesti kuidas
+
+
+sinu jaoks kajavad mäed
+ja vulisevad ojad`
     },
     {
         id: 'enese-avamine',
