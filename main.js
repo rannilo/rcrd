@@ -117,14 +117,8 @@ function setupEventListeners() {
         } else {
             const node = branchSystem.getNodeAt(x, y);
             if (node) {
-                // Skip detail panel for Mind node, go straight to profile
-                if (node.type === 'root') {
-                    openMindProfile();
-                    branchSystem.setSelectedNode(node);
-                } else {
-                    showNodeDetail(node);
-                    branchSystem.setSelectedNode(node);
-                }
+                showNodeDetail(node);
+                branchSystem.setSelectedNode(node);
             }
         }
     });
