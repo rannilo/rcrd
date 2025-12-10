@@ -1,691 +1,538 @@
-let branchSystem;
-let animationId;
+/* ═══════════════════════════════════════════════════════════════
+   RCRD — Main Application
+   Orchestrates the universe
+   ═══════════════════════════════════════════════════════════════ */
 
-function init() {
-    const canvas = document.getElementById('thought-canvas');
-    branchSystem = new BranchSystem(canvas, thoughtsData);
-    
-    setupLegend();
-    setupEventListeners();
-    animate();
-}
+(function() {
+    'use strict';
 
-function setupLegend() {
-    const filterOptions = document.getElementById('filter-options');
-    const selectAll = document.getElementById('select-all');
-    const selectNone = document.getElementById('select-none');
+    /* ─────────────────────────────────────────────────────────────
+       State
+       ───────────────────────────────────────────────────────────── */
     
-    // Get unique node types
-    const nodeTypes = [...new Set(thoughtsData.nodes.map(n => n.type))];
-    const checkboxes = [];
-    
-    nodeTypes.forEach(type => {
-        const filterItem = document.createElement('div');
-        filterItem.className = 'filter-item';
-        
-        const checkbox = document.createElement('div');
-        checkbox.className = 'filter-checkbox checked';
-        checkboxes.push({ checkbox, type });
-        
-        const colorBox = document.createElement('div');
-        colorBox.className = 'filter-color';
-        colorBox.style.background = nodeColors[type] || nodeColors.default;
-        
-        const label = document.createElement('div');
-        label.className = 'filter-label';
-        label.textContent = type.replace('-', ' ');
-        
-        filterItem.appendChild(checkbox);
-        filterItem.appendChild(colorBox);
-        filterItem.appendChild(label);
-        
-        filterItem.addEventListener('click', () => {
-            branchSystem.toggleNodeType(type);
-            checkbox.classList.toggle('checked');
-        });
-        
-        filterOptions.appendChild(filterItem);
-    });
-    
-    // Select all button
-    selectAll.addEventListener('click', () => {
-        checkboxes.forEach(({ checkbox, type }) => {
-            if (!checkbox.classList.contains('checked')) {
-                checkbox.classList.add('checked');
-                if (branchSystem.hiddenTypes.has(type)) {
-                    branchSystem.toggleNodeType(type);
-                }
-            }
-        });
-    });
-    
-    // Select none button
-    selectNone.addEventListener('click', () => {
-        checkboxes.forEach(({ checkbox, type }) => {
-            if (checkbox.classList.contains('checked')) {
-                checkbox.classList.remove('checked');
-                if (!branchSystem.hiddenTypes.has(type)) {
-                    branchSystem.toggleNodeType(type);
-                }
-            }
-        });
-    });
-}
+    let isCuriosityMode = false;
+    let fallingStarTimeout = null;
 
-function setupEventListeners() {
-    const canvas = document.getElementById('thought-canvas');
-    const detailPanel = document.getElementById('thought-detail');
-    const closeBtn = document.getElementById('close-detail');
-    const resetBtn = document.getElementById('reset-view');
-    const physicsBtn = document.getElementById('toggle-physics');
+    /* ─────────────────────────────────────────────────────────────
+       DOM References
+       ───────────────────────────────────────────────────────────── */
     
-    // Mouse interactions
-    canvas.addEventListener('mousedown', (e) => {
-        const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        const node = branchSystem.getNodeAt(x, y);
-        if (!node) {
-            branchSystem.startPan(x, y);
-            canvas.style.cursor = 'grabbing';
-        }
-    });
-    
-    canvas.addEventListener('mousemove', (e) => {
-        const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        if (branchSystem.isPanning) {
-            branchSystem.updatePan(x, y);
-        } else {
-            const node = branchSystem.getNodeAt(x, y);
-            branchSystem.setHoveredNode(node);
-            canvas.style.cursor = node ? 'pointer' : 'grab';
-        }
-    });
-    
-    canvas.addEventListener('mouseup', (e) => {
-        const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        if (branchSystem.isPanning) {
-            branchSystem.endPan();
-            canvas.style.cursor = 'grab';
-        } else {
-            const node = branchSystem.getNodeAt(x, y);
-            if (node) {
-                showNodeDetail(node);
-                branchSystem.setSelectedNode(node);
-            }
-        }
-    });
-    
-    canvas.addEventListener('mouseleave', () => {
-        branchSystem.endPan();
-        canvas.style.cursor = 'grab';
-    });
-    
-    // Zoom with mouse wheel
-    canvas.addEventListener('wheel', (e) => {
-        e.preventDefault();
-        const rect = canvas.getBoundingClientRect();
-        const mouseX = e.clientX - rect.left;
-        const mouseY = e.clientY - rect.top;
-        branchSystem.zoom(e.deltaY, mouseX, mouseY);
-    });
-    
-    // Close detail panel
-    closeBtn.addEventListener('click', () => {
-        detailPanel.classList.add('hidden');
-        branchSystem.setSelectedNode(null);
-    });
-    
-    // Escape key to close
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            detailPanel.classList.add('hidden');
-            branchSystem.setSelectedNode(null);
-        }
-    });
-    
-    // Control buttons
-    resetBtn.addEventListener('click', () => {
-        branchSystem.reset();
-    });
-    
-    physicsBtn.addEventListener('click', () => {
-        branchSystem.togglePhysics();
-        physicsBtn.style.background = branchSystem.physicsEnabled ? 
-            'var(--deep-green)' : 'var(--bark-brown)';
-    });
-    
-    // Window resize
-    window.addEventListener('resize', () => {
-        branchSystem.resize();
-    });
-    
-    // CV Panel toggle
-    const cvPanel = document.getElementById('cv-panel');
-    const showCvBtn = document.getElementById('show-cv');
-    const closeCvBtn = document.getElementById('close-cv');
-    
-    showCvBtn.addEventListener('click', () => {
-        cvPanel.classList.remove('panel-closed');
-    });
-    
-    closeCvBtn.addEventListener('click', () => {
-        cvPanel.classList.add('panel-closed');
-    });
-    
-    // Filter panel toggle
-    const filterBody = document.getElementById('filter-body');
-    const toggleFilterBtn = document.getElementById('toggle-filter');
-    
-    toggleFilterBtn.addEventListener('click', () => {
-        filterBody.classList.toggle('collapsed');
-        toggleFilterBtn.textContent = filterBody.classList.contains('collapsed') ? '+' : '−';
-    });
-}
+    const $particles = document.getElementById('particles');
+    const $cloudsLayer = document.getElementById('clouds-layer');
+    const $starsLayer = document.getElementById('stars-layer');
+    const $fallingStarsLayer = document.getElementById('falling-stars-layer');
+    const $curiosityToggle = document.getElementById('curiosity-toggle');
+    const $starModal = document.getElementById('star-modal');
+    const $fallingModal = document.getElementById('falling-star-modal');
 
-function showNodeDetail(node) {
-    const detailPanel = document.getElementById('thought-detail');
-    const titleEl = document.getElementById('detail-title');
-    const descEl = document.getElementById('detail-description');
-    const metaEl = document.getElementById('detail-meta');
-    const actionsEl = document.getElementById('detail-actions');
+    /* ─────────────────────────────────────────────────────────────
+       Initialization
+       ───────────────────────────────────────────────────────────── */
     
-    titleEl.textContent = node.label;
-    descEl.textContent = node.description || 'No description available';
-    
-    // Clear and populate meta tags
-    metaEl.innerHTML = '';
-    if (node.tags) {
-        node.tags.forEach(tag => {
-            const tagEl = document.createElement('div');
-            tagEl.className = 'meta-tag';
-            tagEl.textContent = tag;
-            metaEl.appendChild(tagEl);
-        });
+    function init() {
+        setUniverseSize();
+        createParticles();
+        renderGasClouds();
+        renderStars();
+        renderCuriosityStars();
+        bindEvents();
+        scheduleFallingStar();
     }
-    
-    // Add node type as a tag
-    const typeTag = document.createElement('div');
-    typeTag.className = 'meta-tag';
-    typeTag.textContent = node.type;
-    typeTag.style.background = 'var(--bark-brown)';
-    metaEl.appendChild(typeTag);
-    
-    // Clear actions
-    actionsEl.innerHTML = '';
-    
-    // Add special button for Poetry node
-    if (node.id === 'poetry') {
-        const poetryBtn = document.createElement('button');
-        poetryBtn.className = 'poetry-trigger';
-        poetryBtn.textContent = '▶ ENTER POEMS';
-        poetryBtn.addEventListener('click', () => {
-            openPoetryViewer();
-        });
-        actionsEl.appendChild(poetryBtn);
-    }
-    
-    // Add special button for MIND (root) node
-    if (node.id === 'root') {
-        const mindBtn = document.createElement('button');
-        mindBtn.className = 'mind-trigger';
-        mindBtn.textContent = '◉ VIEW PROFILE';
-        mindBtn.addEventListener('click', () => {
-            openMindProfile();
-        });
-        actionsEl.appendChild(mindBtn);
-        
-        const thoughtBtn = document.createElement('button');
-        thoughtBtn.className = 'thought-trigger';
-        thoughtBtn.textContent = '💭 RANDOM THOUGHT';
-        thoughtBtn.addEventListener('click', () => {
-            showRandomThought();
-        });
-        actionsEl.appendChild(thoughtBtn);
-    }
-    
-    // Add special button for YouTube Depths node
-    if (node.id === 'youtube-depths') {
-        const youtubeBtn = document.createElement('button');
-        youtubeBtn.className = 'youtube-trigger';
-        youtubeBtn.textContent = '📺 RANDOM 2010s VIDEO';
-        youtubeBtn.addEventListener('click', () => {
-            openRandomYouTubeVideo();
-        });
-        actionsEl.appendChild(youtubeBtn);
-    }
-    
-    // Add special button for Vsauce node
-    if (node.id === 'vsauce') {
-        const vsauceBtn = document.createElement('button');
-        vsauceBtn.className = 'youtube-trigger';
-        vsauceBtn.textContent = '📺 WATCH VSAUCE';
-        vsauceBtn.addEventListener('click', () => {
-            window.open('https://www.youtube.com/watch?v=qjfaoe847qQ', '_blank');
-        });
-        actionsEl.appendChild(vsauceBtn);
-    }
-    
-    // Add special button for Athene node
-    if (node.id === 'athene') {
-        const atheneBtn = document.createElement('button');
-        atheneBtn.className = 'youtube-trigger';
-        atheneBtn.textContent = '🎬 ATHENE DOCUMENTARY';
-        atheneBtn.addEventListener('click', () => {
-            window.open('https://www.youtube.com/watch?v=0BASxCHC9VI', '_blank');
-        });
-        actionsEl.appendChild(atheneBtn);
-    }
-    
-    // Add special buttons for Effective Altruism node
-    if (node.id === 'effective-altruism') {
-        const eaVideoBtn = document.createElement('button');
-        eaVideoBtn.className = 'youtube-trigger';
-        eaVideoBtn.textContent = '📺 EA INTRO VIDEO';
-        eaVideoBtn.addEventListener('click', () => {
-            window.open('https://www.youtube.com/watch?v=WyprXhvGVYk', '_blank');
-        });
-        actionsEl.appendChild(eaVideoBtn);
-        
-        const eaEstoniaBtn = document.createElement('button');
-        eaEstoniaBtn.className = 'mind-trigger';
-        eaEstoniaBtn.textContent = '🌐 EA ESTONIA';
-        eaEstoniaBtn.addEventListener('click', () => {
-            window.open('https://www.efektiivnealtruism.org/', '_blank');
-        });
-        actionsEl.appendChild(eaEstoniaBtn);
-    }
-    
-    detailPanel.classList.remove('hidden');
-}
 
-function animate() {
-    branchSystem.update();
-    branchSystem.draw();
-    animationId = requestAnimationFrame(animate);
-}
-
-// Poetry viewer functionality
-let currentPoemIndex = 0;
-let currentYearPoems = [];
-
-function openPoetryViewer() {
-    const viewer = document.getElementById('poetry-viewer');
-    viewer.classList.remove('hidden');
-    displayYearBoxes();
-    setupPoetryEvents();
-}
-
-function displayYearBoxes() {
-    const yearsContainer = document.getElementById('poetry-years');
-    const poemDisplay = document.getElementById('poem-display');
-    
-    // Hide poem display, show years
-    poemDisplay.classList.add('hidden');
-    yearsContainer.classList.remove('hidden');
-    
-    // Group poems by year
-    const poemsByYear = {};
-    poemsData.forEach(poem => {
-        const year = poem.date;
-        if (!poemsByYear[year]) {
-            poemsByYear[year] = [];
-        }
-        poemsByYear[year].push(poem);
-    });
-    
-    // Sort years descending
-    const years = Object.keys(poemsByYear).sort((a, b) => b - a);
-    
-    // Clear container
-    yearsContainer.innerHTML = '';
-    
-    // Create year boxes
-    years.forEach(year => {
-        const yearBox = document.createElement('div');
-        yearBox.className = 'year-box';
+    function setUniverseSize() {
+        // Use viewport dimensions with minimum sizes
+        const minWidth = 900;
+        const minHeight = 700;
         
-        const poemsList = poemsByYear[year].map(poem => {
-            // Use first line for untitled poems
-            let displayTitle = poem.title;
-            if (poem.title === '*') {
-                const firstLine = poem.text.split('\n')[0];
-                displayTitle = firstLine.length > 40 ? firstLine.substring(0, 37) + '...' : firstLine;
-            }
-            return `<div class="year-poem-item" data-poem-id="${poem.id}">${displayTitle}</div>`;
-        }).join('');
+        config.universeWidth = Math.max(window.innerWidth, minWidth);
+        config.universeHeight = Math.max(window.innerHeight, minHeight);
         
-        yearBox.innerHTML = `
-            <div class="year-label">${year}</div>
-            <div class="year-count">[${poemsByYear[year].length} POEMS]</div>
-            <div class="year-poems-list">
-                ${poemsList}
-            </div>
-        `;
+        const universe = document.getElementById('universe');
+        universe.style.width = config.universeWidth + 'px';
+        universe.style.height = config.universeHeight + 'px';
         
-        // Add click handlers for poem items
-        yearBox.querySelectorAll('.year-poem-item').forEach(item => {
-            item.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const poemId = item.dataset.poemId;
-                const poemIndex = poemsData.findIndex(p => p.id === poemId);
-                currentYearPoems = poemsByYear[year];
-                displayPoem(poemIndex);
+        [$cloudsLayer, $starsLayer, $fallingStarsLayer].forEach(layer => {
+            layer.style.width = config.universeWidth + 'px';
+            layer.style.height = config.universeHeight + 'px';
+        });
+        
+        // Handle resize
+        window.addEventListener('resize', () => {
+            config.universeWidth = Math.max(window.innerWidth, minWidth);
+            config.universeHeight = Math.max(window.innerHeight, minHeight);
+            
+            universe.style.width = config.universeWidth + 'px';
+            universe.style.height = config.universeHeight + 'px';
+            
+            [$cloudsLayer, $starsLayer, $fallingStarsLayer].forEach(layer => {
+                layer.style.width = config.universeWidth + 'px';
+                layer.style.height = config.universeHeight + 'px';
             });
         });
-        
-        yearsContainer.appendChild(yearBox);
-    });
-}
-
-function setupPoetryEvents() {
-    const closeBtn = document.getElementById('close-poetry');
-    const prevBtn = document.getElementById('prev-poem');
-    const nextBtn = document.getElementById('next-poem');
-    const backBtn = document.getElementById('back-to-years');
-    
-    // Close button
-    closeBtn.addEventListener('click', closePoetryViewer);
-    
-    // Back to years button
-    backBtn.addEventListener('click', () => {
-        displayYearBoxes();
-    });
-    
-    // Navigation
-    prevBtn.addEventListener('click', () => {
-        if (currentPoemIndex > 0) {
-            displayPoem(currentPoemIndex - 1);
-        }
-    });
-    
-    nextBtn.addEventListener('click', () => {
-        if (currentPoemIndex < poemsData.length - 1) {
-            displayPoem(currentPoemIndex + 1);
-        }
-    });
-    
-    // Keyboard navigation
-    const handleKeyPress = (e) => {
-        if (e.key === 'Escape') {
-            const poemDisplay = document.getElementById('poem-display');
-            if (!poemDisplay.classList.contains('hidden')) {
-                displayYearBoxes();
-            } else {
-                closePoetryViewer();
-            }
-        } else if (e.key === 'ArrowLeft' && currentPoemIndex > 0) {
-            displayPoem(currentPoemIndex - 1);
-        } else if (e.key === 'ArrowRight' && currentPoemIndex < poemsData.length - 1) {
-            displayPoem(currentPoemIndex + 1);
-        }
-    };
-    
-    document.addEventListener('keydown', handleKeyPress);
-    
-    // Clean up on close
-    viewer.cleanupHandler = handleKeyPress;
-}
-
-function closePoetryViewer() {
-    const viewer = document.getElementById('poetry-viewer');
-    viewer.classList.add('hidden');
-    
-    // Remove keyboard event listener
-    if (viewer.cleanupHandler) {
-        document.removeEventListener('keydown', viewer.cleanupHandler);
     }
-}
 
-function displayPoem(index) {
-    currentPoemIndex = index;
-    const poem = poemsData[index];
+    /* ─────────────────────────────────────────────────────────────
+       Ambient Particles
+       ───────────────────────────────────────────────────────────── */
     
-    // Show poem display, hide years
-    const yearsContainer = document.getElementById('poetry-years');
-    const poemDisplay = document.getElementById('poem-display');
-    yearsContainer.classList.add('hidden');
-    poemDisplay.classList.remove('hidden');
-    
-    // Update content with typewriter effect
-    const titleEl = document.getElementById('poem-title');
-    const dateEl = document.getElementById('poem-date');
-    const textEl = document.getElementById('poem-text');
-    const counterEl = document.getElementById('poem-counter');
-    const prevBtn = document.getElementById('prev-poem');
-    const nextBtn = document.getElementById('next-poem');
-    
-    // Reset animations
-    titleEl.style.animation = 'none';
-    textEl.style.animation = 'none';
-    
-    setTimeout(() => {
-        titleEl.textContent = poem.title;
-        dateEl.textContent = `[${poem.date}]`;
-        textEl.textContent = poem.text;
-        counterEl.textContent = `${index + 1} / ${poemsData.length}`;
-        
-        // Re-trigger animations
-        titleEl.style.animation = 'typewriter 0.5s steps(20)';
-        textEl.style.animation = 'fade-in 0.8s ease-in';
-        
-        // Update button states
-        prevBtn.disabled = index === 0;
-        nextBtn.disabled = index === poemsData.length - 1;
-    }, 50);
-}
+    function createParticles() {
+        const colors = [
+            'rgba(167, 139, 250, 0.7)',  // purple
+            'rgba(244, 114, 182, 0.6)',  // pink
+            'rgba(96, 165, 250, 0.6)',   // blue
+            'rgba(45, 212, 191, 0.5)',   // teal
+            'rgba(255, 255, 255, 0.5)'   // white
+        ];
 
-// Mind Profile functionality
-function openMindProfile() {
-    const profile = document.getElementById('mind-profile');
-    profile.classList.remove('hidden');
-    setupProfileEvents();
-}
-
-function setupProfileEvents() {
-    const closeBtn = document.getElementById('close-profile');
-    const ancestorsBtn = document.getElementById('show-ancestors');
-    const ancestorsPortal = document.getElementById('ancestors-portal');
-    const exitPortalBtn = document.getElementById('exit-portal');
-    
-    closeBtn.addEventListener('click', () => {
-        document.getElementById('mind-profile').classList.add('hidden');
-    });
-    
-    ancestorsBtn.addEventListener('click', () => {
-        // Show portal overlay on top of profile
-        ancestorsPortal.classList.remove('hidden');
-        populateAncestors();
-    });
-    
-    exitPortalBtn.addEventListener('click', () => {
-        // Close portal only
-        ancestorsPortal.classList.add('hidden');
-    });
-    
-    // ESC key to exit portal
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !ancestorsPortal.classList.contains('hidden')) {
-            ancestorsPortal.classList.add('hidden');
+        for (let i = 0; i < config.particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            const size = Math.random() * 3 + 1;
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const posX = Math.random() * 100;
+            const posY = Math.random() * 100;
+            const baseOpacity = Math.random() * 0.4 + 0.5;
+            const twinkleDuration = Math.random() * 6 + 4; // 4-10 seconds
+            const twinkleDelay = Math.random() * 5;
+            
+            particle.style.cssText = `
+                width: ${size}px;
+                height: ${size}px;
+                left: ${posX}%;
+                top: ${posY}%;
+                background: ${color};
+                box-shadow: 0 0 ${size * 2}px ${color};
+                --base-opacity: ${baseOpacity};
+                animation-duration: ${twinkleDuration}s;
+                animation-delay: ${twinkleDelay}s;
+            `;
+            
+            $particles.appendChild(particle);
         }
-    });
-}
+    }
 
-function populateAncestors() {
-    const grid = document.querySelector('.ancestors-grid');
-    grid.innerHTML = '';
+    /* ─────────────────────────────────────────────────────────────
+       Gas Clouds
+       ───────────────────────────────────────────────────────────── */
     
-    ancestorsData.previousGeneration.forEach(ancestor => {
-        const card = document.createElement('div');
-        card.className = 'ancestor-card';
+    function renderGasClouds() {
+        gasClouds.forEach(cloud => {
+            // Create the cloud element
+            const $cloud = document.createElement('div');
+            $cloud.className = 'gas-cloud';
+            $cloud.id = `cloud-${cloud.id}`;
+            
+            const x = (cloud.x / 100) * config.universeWidth;
+            const y = (cloud.y / 100) * config.universeHeight;
+            
+            $cloud.style.cssText = `
+                left: ${x - cloud.size / 2}px;
+                top: ${y - cloud.size / 2}px;
+                width: ${cloud.size}px;
+                height: ${cloud.size}px;
+                background: radial-gradient(ellipse at center, ${cloud.color} 0%, ${cloud.color.replace(/[\d.]+\)$/, '0.1)')} 50%, transparent 70%);
+            `;
+            
+            $cloudsLayer.appendChild($cloud);
+            
+            // Create the label
+            const $label = document.createElement('span');
+            $label.className = 'cloud-label';
+            $label.textContent = cloud.name;
+            
+            // Extract color for label (use a lighter version)
+            const labelColor = cloud.color.replace(/[\d.]+\)$/, '0.8)');
+            $label.style.cssText = `
+                left: ${x}px;
+                top: ${y}px;
+                transform: translateX(-50%);
+                color: ${labelColor};
+            `;
+            
+            // Make label clickable if cloud has description
+            if (cloud.description) {
+                $label.classList.add('clickable');
+                $label.addEventListener('click', () => openCloudModal(cloud));
+            }
+            
+            // Highlight certain clouds in curiosity mode
+            if (['tpot', 'meditation', 'folklore'].includes(cloud.id)) {
+                $label.classList.add('curiosity-highlight');
+            }
+            
+            $cloudsLayer.appendChild($label);
+        });
+    }
+    
+    function openCloudModal(cloud) {
+        const $title = $starModal.querySelector('.modal-title');
+        const $type = $starModal.querySelector('.modal-type');
+        const $imageContainer = $starModal.querySelector('.modal-image-container');
+        const $description = $starModal.querySelector('.modal-description');
+        const $links = $starModal.querySelector('.modal-links');
         
-        const interestsHTML = ancestor.interests.map(interest => 
-            `<div class="ancestor-interest">• ${interest}</div>`
-        ).join('');
+        $title.textContent = cloud.name;
+        $type.textContent = 'cluster';
+        $description.textContent = cloud.description || '';
         
-        card.innerHTML = `
-            <div class="ancestor-name">${ancestor.name}</div>
-            <div class="ancestor-relation">${ancestor.relation}</div>
-            <div class="ancestor-interests">
-                ${interestsHTML}
-            </div>
-            ${ancestor.wiki ? `<a href="${ancestor.wiki}" target="_blank" class="ancestor-link">Wikipedia ↗</a>` : ''}
+        $imageContainer.innerHTML = '';
+        $imageContainer.style.display = 'none';
+        
+        // Handle links
+        $links.innerHTML = '';
+        if (cloud.links && cloud.links.length > 0) {
+            cloud.links.forEach(link => {
+                const $a = document.createElement('a');
+                $a.href = link.url;
+                $a.textContent = link.text;
+                $a.target = '_blank';
+                $a.rel = 'noopener noreferrer';
+                $links.appendChild($a);
+            });
+        }
+        
+        $starModal.setAttribute('aria-hidden', 'false');
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       Stars
+       ───────────────────────────────────────────────────────────── */
+    
+    function renderStars() {
+        stars.forEach(star => {
+            const $star = createStarElement(star, 'regular-star', true);
+            $starsLayer.appendChild($star);
+        });
+    }
+
+    function renderCuriosityStars() {
+        curiosityStars.forEach(star => {
+            // Allow clickable if has description
+            const hasDescription = star.description && star.description.trim() !== '';
+            const $star = createStarElement(star, 'curiosity-star', hasDescription);
+            
+            // Add class for stars with no description (more muted)
+            if (!hasDescription) {
+                $star.classList.add('no-info');
+            }
+            
+            $starsLayer.appendChild($star);
+        });
+    }
+
+    function createStarElement(star, className, allowClickable = true) {
+        const $star = document.createElement('div');
+        $star.className = `star ${className}`;
+        $star.dataset.starId = star.id;
+        
+        const x = (star.x / 100) * config.universeWidth;
+        const y = (star.y / 100) * config.universeHeight;
+        
+        $star.style.cssText = `
+            left: ${x - star.size / 2}px;
+            top: ${y - star.size / 2}px;
+            width: ${star.size}px;
+            height: ${star.size}px;
+            --star-color: ${star.color || '#fff9f0'};
+            --twinkle-duration: ${2 + Math.random() * 3}s;
+            --twinkle-delay: ${Math.random() * 2}s;
         `;
         
-        grid.appendChild(card);
-    });
-}
-
-// YouTube Depths functionality
-function openRandomYouTubeVideo() {
-    const videos2010s = [
-        'https://www.youtube.com/watch?v=4UdEFmxRmNE', // Yogscast, shadow of israphel part 1
-        'https://www.youtube.com/watch?v=B36Ehzf2cxE', // paulsoaresjr minecraft tutorial video
-        'https://www.youtube.com/watch?v=Uw7e5PCbKgE', // smosh food battle 2011
-        'https://www.youtube.com/watch?v=NTTJcz0rqco', // jack and dean fac-e-book
-        'https://www.youtube.com/watch?v=nL33h2zeTPY'  // athene video
-    ];
-    
-    const randomVideo = videos2010s[Math.floor(Math.random() * videos2010s.length)];
-    window.open(randomVideo, '_blank');
-}
-
-// Random thoughts functionality
-function showRandomThought() {
-    const thoughts = [
-        "Maybe you can just say stuff. Say the uncomfortable thing. Even if you don't know how it's going to go. Jump into the void. Maybe you can be direct.",
+        const $core = document.createElement('div');
+        $core.className = 'star-core';
         
-        "Maybe you can just embrace the fact that you don't feel real. Maybe you don't need the crutch, maybe you can just let go.",
-        
-        "Remind yourself that you can mention the things that bring disconnect. And then they disappear. And connection emerges naturally.",
-        
-        "Kõik algab.",
-        
-        `"Stand still. The trees ahead and bushes beside you
-Are not lost. Wherever you are is called Here,
-And you must treat it as a powerful stranger,
-Must ask permission to know it and be known.
-The forest breathes. Listen. It answers,
-I have made this place around you.
-If you leave it, you may come back again, saying Here.
-No two trees are the same to Raven.
-No two branches are the same to Wren.
-If what a tree or a bush does is lost on you,
-You are surely lost. Stand still. The forest knows
-Where you are. you must let it find you."
-
-- David Wagoner`,
-        
-        "maybe death isn't so tragic. like a leaf falling down in autumn. it just is. all things must come to an end. maybe we would be a happier and healthier society if we took death as the natural occurance as it is -- we wouldn't cling so hard on life in our final moments - being able to let go better -- and we woudn't spend needless resources keeping people alive even through suffering",
-        
-        "pretty sure we can fix the school system by teaching people to listen to their wants and needs and going through that instead of teaching them obedience and sitting still. im sure places like waldorf school have learned this already. this should be mainstream"
-    ];
-    
-    const randomThought = thoughts[Math.floor(Math.random() * thoughts.length)];
-    
-    // Create a modal overlay
-    const modal = document.createElement('div');
-    modal.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, rgba(13, 31, 13, 0.98), rgba(5, 10, 5, 0.95));
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 10000;
-        backdrop-filter: blur(8px);
-        animation: fadeIn 0.3s ease-out;
-    `;
-    
-    const thoughtBox = document.createElement('div');
-    thoughtBox.style.cssText = `
-        background: linear-gradient(145deg, var(--deep-green), var(--mid-green));
-        border: 4px solid var(--bright-green);
-        border-radius: 12px;
-        padding: 40px;
-        max-width: 700px;
-        max-height: 80vh;
-        overflow-y: auto;
-        color: var(--moss);
-        font-family: 'Courier New', monospace;
-        font-size: 18px;
-        line-height: 1.8;
-        white-space: pre-line;
-        text-align: left;
-        box-shadow: 
-            8px 8px 0 var(--shadow),
-            8px 8px 40px rgba(126, 179, 70, 0.3),
-            inset 0 0 30px rgba(126, 179, 70, 0.1);
-        position: relative;
-        transform: scale(0.95);
-        animation: thoughtPopIn 0.4s ease-out forwards;
-    `;
-    
-    thoughtBox.textContent = randomThought;
-    
-    // Add close button
-    const closeButton = document.createElement('button');
-    closeButton.textContent = '×';
-    closeButton.style.cssText = `
-        position: absolute;
-        top: 15px;
-        right: 20px;
-        background: var(--bark-brown);
-        border: 2px solid var(--bright-green);
-        border-radius: 50%;
-        width: 35px;
-        height: 35px;
-        color: var(--moss);
-        font-size: 20px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: 'Courier New', monospace;
-    `;
-    
-    closeButton.addEventListener('mouseenter', () => {
-        closeButton.style.background = '#2d5016';
-        closeButton.style.transform = 'scale(1.1)';
-    });
-    
-    closeButton.addEventListener('mouseleave', () => {
-        closeButton.style.background = '#3e2723';
-        closeButton.style.transform = 'scale(1)';
-    });
-    closeButton.addEventListener('click', () => modal.remove());
-    
-    thoughtBox.style.position = 'relative';
-    thoughtBox.appendChild(closeButton);
-    modal.appendChild(thoughtBox);
-    
-    // Close on click outside
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.remove();
-    });
-    
-    // Close on escape key
-    document.addEventListener('keydown', function escapeHandler(e) {
-        if (e.key === 'Escape') {
-            modal.remove();
-            document.removeEventListener('keydown', escapeHandler);
+        // Only make clickable if allowed and star has description
+        if (allowClickable && star.description && star.description.trim() !== '') {
+            $core.classList.add('clickable');
+            $core.addEventListener('click', () => openStarModal(star));
         }
-    });
-    
-    document.body.appendChild(modal);
-}
+        
+        $star.appendChild($core);
+        
+        const $label = document.createElement('span');
+        $label.className = 'star-label';
+        $label.textContent = star.name;
+        
+        // Custom label positioning if specified
+        if (star.labelPosition) {
+            $label.classList.add('label-' + star.labelPosition);
+        }
+        
+        $star.appendChild($label);
+        
+        return $star;
+    }
 
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', init);
+    /* ─────────────────────────────────────────────────────────────
+       Star Modal
+       ───────────────────────────────────────────────────────────── */
+    
+    function openStarModal(star) {
+        const $title = $starModal.querySelector('.modal-title');
+        const $type = $starModal.querySelector('.modal-type');
+        const $imageContainer = $starModal.querySelector('.modal-image-container');
+        const $description = $starModal.querySelector('.modal-description');
+        const $links = $starModal.querySelector('.modal-links');
+        
+        $title.textContent = star.name;
+        $type.textContent = star.type;
+        $description.textContent = star.description || '';
+        
+        // Handle image
+        if (star.image) {
+            $imageContainer.innerHTML = `<img src="${star.image}" alt="${star.name}">`;
+            $imageContainer.style.display = 'block';
+        } else {
+            $imageContainer.innerHTML = '';
+            $imageContainer.style.display = 'none';
+        }
+        
+        // Handle links
+        $links.innerHTML = '';
+        if (star.links && star.links.length > 0) {
+            star.links.forEach(link => {
+                const $a = document.createElement('a');
+                $a.href = link.url;
+                $a.textContent = link.text;
+                $a.target = '_blank';
+                $a.rel = 'noopener noreferrer';
+                $links.appendChild($a);
+            });
+        }
+        
+        $starModal.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeStarModal() {
+        $starModal.setAttribute('aria-hidden', 'true');
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       Falling Stars
+       ───────────────────────────────────────────────────────────── */
+    
+    let isFirstFallingStar = true;
+    
+    function scheduleFallingStar() {
+        const baseInterval = config.fallingStarInterval;
+        const variance = config.fallingStarVariance;
+        
+        // First one comes after 5-15 seconds, rest are random
+        const delay = isFirstFallingStar 
+            ? 5000 + Math.random() * 10000
+            : baseInterval + (Math.random() - 0.5) * 2 * variance;
+        
+        isFirstFallingStar = false;
+        
+        fallingStarTimeout = setTimeout(() => {
+            spawnFallingStar();
+            scheduleFallingStar();
+        }, delay);
+    }
+
+    function spawnFallingStar() {
+        if (fallingStars.length === 0) return;
+        
+        // Show the first poem first if not seen yet
+        const hasSeenFirst = localStorage.getItem('rcrd-seen-first-poem');
+        let starData;
+        
+        if (!hasSeenFirst) {
+            starData = fallingStars.find(s => s.first) || fallingStars[0];
+            localStorage.setItem('rcrd-seen-first-poem', 'true');
+        } else {
+            // Pick a random poem (excluding the 'first' one for variety, or include it)
+            starData = fallingStars[Math.floor(Math.random() * fallingStars.length)];
+        }
+        
+        const $star = document.createElement('div');
+        $star.className = 'falling-star';
+        
+        // Start from top-right of viewport, random position
+        const startX = window.innerWidth + 50;
+        const startY = Math.random() * window.innerHeight * 0.3 + 20;
+        
+        // End at bottom-left
+        const endX = -180;
+        const endY = window.innerHeight * 0.7 + Math.random() * window.innerHeight * 0.25;
+        
+        // Calculate angle for proper rotation
+        const angle = Math.atan2(endY - startY, endX - startX) * (180 / Math.PI);
+        
+        $star.style.cssText = `
+            left: ${startX}px;
+            top: ${startY}px;
+            transform: rotate(${angle}deg);
+        `;
+        
+        // Large invisible hitbox for easy clicking
+        const $hitbox = document.createElement('div');
+        $hitbox.className = 'falling-star-hitbox';
+        $star.appendChild($hitbox);
+        
+        const $body = document.createElement('div');
+        $body.className = 'falling-star-body';
+        $star.appendChild($body);
+        
+        // Show "click me" hint if user hasn't clicked a falling star before
+        const hasClickedBefore = localStorage.getItem('rcrd-clicked-falling-star');
+        if (!hasClickedBefore) {
+            const $hint = document.createElement('span');
+            $hint.className = 'falling-star-hint';
+            $hint.textContent = 'click me!';
+            $hint.style.setProperty('--star-angle', angle + 'deg');
+            $star.appendChild($hint);
+        }
+        
+        function handleClick(e) {
+            e.stopPropagation();
+            localStorage.setItem('rcrd-clicked-falling-star', 'true');
+            openFallingStarModal(starData);
+            $star.remove();
+        }
+        
+        $star.addEventListener('click', handleClick);
+        
+        // Append to body for fixed positioning
+        document.body.appendChild($star);
+        
+        // Animate using requestAnimationFrame for reliability
+        const duration = 16000 + Math.random() * 6000; // 16-22 seconds
+        let startTime = null;
+        
+        function animate(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const elapsed = timestamp - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            const currentX = startX + (endX - startX) * progress;
+            const currentY = startY + (endY - startY) * progress;
+            
+            // Fade in at start, fade out at end
+            let opacity = 1;
+            if (progress < 0.1) {
+                opacity = progress / 0.1;
+            } else if (progress > 0.85) {
+                opacity = (1 - progress) / 0.15;
+            }
+            
+            $star.style.left = currentX + 'px';
+            $star.style.top = currentY + 'px';
+            $star.style.opacity = opacity;
+            
+            if (progress < 1 && $star.parentNode) {
+                requestAnimationFrame(animate);
+            } else if ($star.parentNode) {
+                $star.remove();
+            }
+        }
+        
+        requestAnimationFrame(animate);
+    }
+
+    function openFallingStarModal(starData) {
+        const $text = $fallingModal.querySelector('.falling-text');
+        const $timer = $fallingModal.querySelector('.falling-timer');
+        const $translateBtn = $fallingModal.querySelector('.falling-translate-btn');
+        
+        let showingTranslation = false;
+        const originalText = starData.text;
+        const translationText = starData.translation;
+        
+        // Replace \n with <br> for display
+        $text.innerHTML = originalText.replace(/\n/g, '<br>');
+        $text.classList.remove('translated');
+        
+        // Show translate button if translation exists
+        if (translationText) {
+            $translateBtn.style.display = 'inline-block';
+            $translateBtn.textContent = 'en';
+            $translateBtn.onclick = () => {
+                showingTranslation = !showingTranslation;
+                if (showingTranslation) {
+                    $text.innerHTML = translationText.replace(/\n/g, '<br>');
+                    $text.classList.add('translated');
+                    $translateBtn.textContent = 'est';
+                } else {
+                    $text.innerHTML = originalText.replace(/\n/g, '<br>');
+                    $text.classList.remove('translated');
+                    $translateBtn.textContent = 'en';
+                }
+            };
+        } else {
+            $translateBtn.style.display = 'none';
+        }
+        
+        // Hide timer - no auto-close
+        $timer.style.display = 'none';
+        
+        $fallingModal.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeFallingStarModal() {
+        $fallingModal.setAttribute('aria-hidden', 'true');
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       Curiosity Mode Toggle
+       ───────────────────────────────────────────────────────────── */
+    
+    function toggleCuriosityMode() {
+        isCuriosityMode = !isCuriosityMode;
+        document.body.classList.toggle('curiosity-mode', isCuriosityMode);
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       Event Bindings
+       ───────────────────────────────────────────────────────────── */
+    
+    function bindEvents() {
+        // Curiosity toggle
+        $curiosityToggle.addEventListener('click', toggleCuriosityMode);
+        
+        // Star modal close
+        $starModal.querySelector('.modal-close').addEventListener('click', closeStarModal);
+        $starModal.querySelector('.modal-backdrop').addEventListener('click', closeStarModal);
+        
+        // Falling star modal close on backdrop click
+        $fallingModal.querySelector('.modal-backdrop').addEventListener('click', closeFallingStarModal);
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeStarModal();
+                closeFallingStarModal();
+            }
+            
+            // Toggle curiosity with 'c' key
+            if (e.key === 'c' && !e.ctrlKey && !e.metaKey) {
+                const activeElement = document.activeElement;
+                if (activeElement.tagName !== 'INPUT' && activeElement.tagName !== 'TEXTAREA') {
+                    toggleCuriosityMode();
+                }
+            }
+            
+            // Press 'f' to manually spawn a falling star (for testing)
+            if (e.key === 'f' && !e.ctrlKey && !e.metaKey) {
+                const activeElement = document.activeElement;
+                if (activeElement.tagName !== 'INPUT' && activeElement.tagName !== 'TEXTAREA') {
+                    spawnFallingStar();
+                }
+            }
+        });
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       Bootstrap
+       ───────────────────────────────────────────────────────────── */
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+
+})();
+
+

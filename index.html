@@ -3,174 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thought Strands</title>
+    <meta name="robots" content="noindex, nofollow">
+    <title>rcrd</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="container">
-        <canvas id="thought-canvas"></canvas>
+    <!-- Ambient floating particles -->
+    <div id="particles"></div>
+    
+    <!-- Main space canvas -->
+    <div id="universe">
+        <!-- Gas clouds layer -->
+        <div id="clouds-layer"></div>
         
-        <div id="thought-detail" class="hidden">
-            <div class="detail-content">
-                <h2 id="detail-title"></h2>
-                <p id="detail-description"></p>
-                <div id="detail-meta"></div>
-                <div id="detail-actions"></div>
-                <button id="close-detail" class="brutal-btn">×</button>
+        <!-- Stars layer -->
+        <div id="stars-layer"></div>
+        
+        <!-- Falling stars layer -->
+        <div id="falling-stars-layer"></div>
+    </div>
+    
+    <!-- Curiosity toggle -->
+    <button id="curiosity-toggle" aria-label="Toggle curiosity layer">
+        <span class="toggle-icon">◐</span>
+        <span class="toggle-text">curiosity</span>
+    </button>
+    
+    <!-- Star popup modal -->
+    <div id="star-modal" class="modal" aria-hidden="true">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close">×</button>
+            <div class="modal-header">
+                <h2 class="modal-title"></h2>
+                <span class="modal-type"></span>
             </div>
-        </div>
-
-        <div id="mind-profile" class="hidden">
-            <div class="profile-container">
-                <button id="close-profile" class="brutal-btn profile-close">×</button>
-                <div class="profile-header">
-                    <img src="rcrd.jpg" alt="Richard Annilo" class="profile-photo">
-                    <h2 class="profile-name">RICHARD ANNILO</h2>
-                    <div class="profile-links">
-                        <a href="https://www.linkedin.com/in/richardannilo/" target="_blank" class="profile-link">LinkedIn ↗</a>
-                        <a href="https://calendly.com/richard-annilo/30-min" target="_blank" class="profile-link">Book a Call ↗</a>
-                    </div>
-                </div>
-                <button id="show-ancestors" class="ancestors-btn">← enter ancestral layer →</button>
-                <div id="ancestors-portal" class="hidden">
-                    <div class="portal-frame">
-                        <div class="portal-header">
-                            <span class="portal-title">RECURSIVE MEMORY //</span>
-                            <button id="exit-portal" class="portal-exit">← return</button>
-                        </div>
-                        <img src="father-brothers.jpg" alt="Three Brothers" class="ancestors-photo">
-                        <div class="ancestors-grid">
-                            <!-- Will be populated dynamically -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="poetry-viewer" class="hidden">
-            <div class="poetry-terminal">
-                <div class="terminal-header">
-                    <span class="terminal-title">POETRY.EXE</span>
-                    <button id="close-poetry" class="terminal-close">×</button>
-                </div>
-                <div class="terminal-body">
-                    <pre class="ascii-art">
-╔══════════════════════════════════╗
-║  ╱╲    LOADING VERSES    ╱╲     ║
-║ ╱  ╲  ================   ╱  ╲    ║
-║╱    ╲                   ╱    ╲   ║
-╚══════════════════════════════════╝</pre>
-                    <div id="poetry-years" class="poetry-years">
-                        <!-- Year boxes will be populated here -->
-                    </div>
-                    <div id="poem-display" class="hidden">
-                        <button id="back-to-years" class="poetry-nav-btn">◄ BACK TO YEARS</button>
-                        <div id="poem-title" class="poem-title"></div>
-                        <div id="poem-date" class="poem-date"></div>
-                        <pre id="poem-text" class="poem-text"></pre>
-                        <div class="poetry-nav">
-                            <button id="prev-poem" class="poetry-nav-btn">◄ PREV</button>
-                            <span id="poem-counter" class="poem-counter">1 / 5</span>
-                            <button id="next-poem" class="poetry-nav-btn">NEXT ►</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="controls">
-            <button id="reset-view" class="brutal-btn">RESET</button>
-            <button id="toggle-physics" class="brutal-btn">PHYSICS</button>
-        </div>
-
-        <div id="legend">
-            <div id="legend-header">
-                <h3>FILTER</h3>
-                <button id="toggle-filter" class="brutal-btn">−</button>
-            </div>
-            <div id="filter-body">
-                <div id="filter-controls">
-                    <button id="select-all" class="filter-btn">ALL</button>
-                    <button id="select-none" class="filter-btn">NONE</button>
-                </div>
-                <div id="filter-options"></div>
-            </div>
-        </div>
-
-        <div id="title-block">
-            <h1>THOUGHT STRANDS</h1>
-            <div class="subtitle">click branches to explore</div>
-            <button id="show-cv" class="brutal-btn">CV</button>
-        </div>
-
-        <div id="cv-panel" class="panel-closed">
-            <div id="cv-header">
-                <h3>PROJECTS & WORK</h3>
-                <button id="close-cv" class="brutal-btn">×</button>
-            </div>
-            <div id="cv-content">
-                <div class="cv-section current">
-                    <h4>🟢 CURRENT ROLE</h4>
-                    <div class="cv-item current-item">
-                        <span class="cv-date">2024-Present</span>
-                        <h5>Spiral Hydrogen</h5>
-                        <p>COO - Novel hydrogen electrolyzer startup reducing green hydrogen costs below fossil-hydrogen levels</p>
-                        <a href="https://spiralhydrogen.com" target="_blank" class="cv-link">spiralhydrogen.com →</a>
-                    </div>
-                </div>
-                <div class="cv-section">
-                    <h4>PAST WORK</h4>
-                    <div class="cv-subsection">
-                        <h5 class="cv-subsection-title">AI Safety</h5>
-                        <div class="cv-item">
-                            <span class="cv-date">2023</span>
-                            <h5>Control AI</h5>
-                            <p>Activism-type targeted interventions to increase AI safety</p>
-                        </div>
-                        <div class="cv-item">
-                            <span class="cv-date">2023</span>
-                            <h5>Pause AI</h5>
-                            <p>Protests and volunteer movement for AI safety</p>
-                        </div>
-                        <div class="cv-item">
-                            <span class="cv-date">2023</span>
-                            <h5>Ministry of Justice Estonia</h5>
-                            <p>Internship working on EU AI Act implementation</p>
-                        </div>
-                        <div class="cv-item">
-                            <span class="cv-date">2023-2024</span>
-                            <h5>Convergence Analysis</h5>
-                            <p>Research assistant on high-level AI policy strategy</p>
-                        </div>
-                    </div>
-                    <div class="cv-subsection">
-                        <h5 class="cv-subsection-title">Community Building</h5>
-                        <div class="cv-item">
-                            <span class="cv-date">2018-2023</span>
-                            <h5>EA Estonia</h5>
-                            <p>Co-built and led the Estonian effective altruism community</p>
-                            <a href="https://forum.effectivealtruism.org/posts/E3wSsdTXLGZ3pvYSY/ea-estonia-s-impact-in-2022" target="_blank" class="cv-link">Impact Report 2022 →</a>
-                        </div>
-                        <div class="cv-item">
-                            <span class="cv-date">2023</span>
-                            <h5>EAGxNordics</h5>
-                            <p>Co-organized conference with 500 participants</p>
-                        </div>
-                        <div class="cv-item">
-                            <span class="cv-date">2024</span>
-                            <h5>EAGxPrague</h5>
-                            <p>Co-organized conference with 300 participants</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="modal-body">
+                <div class="modal-image-container"></div>
+                <div class="modal-description"></div>
+                <div class="modal-links"></div>
             </div>
         </div>
     </div>
+    
+    <!-- Falling star message popup -->
+    <div id="falling-star-modal" class="modal falling-modal" aria-hidden="true">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="falling-timer"></div>
+            <div class="falling-text"></div>
+            <button class="falling-translate-btn" style="display: none;">en</button>
+        </div>
+    </div>
 
-    <script src="thoughts-data.js"></script>
-    <script src="poems-data.js"></script>
-    <script src="ancestors-data.js"></script>
-    <script src="branch-system.js"></script>
+    <script src="data.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
+
+

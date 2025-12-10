@@ -1,3 +1,2 @@
-# Robots.txt for rcrd.nl
 User-agent: *
 Disallow: /
