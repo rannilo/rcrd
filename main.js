@@ -334,17 +334,8 @@
     function spawnFallingStar() {
         if (fallingStars.length === 0) return;
         
-        // Show the first poem first if not seen yet
-        const hasSeenFirst = localStorage.getItem('rcrd-seen-first-poem');
-        let starData;
-        
-        if (!hasSeenFirst) {
-            starData = fallingStars.find(s => s.first) || fallingStars[0];
-            localStorage.setItem('rcrd-seen-first-poem', 'true');
-        } else {
-            // Pick a random poem (excluding the 'first' one for variety, or include it)
-            starData = fallingStars[Math.floor(Math.random() * fallingStars.length)];
-        }
+        // Pick a random poem for this star
+        const starData = fallingStars[Math.floor(Math.random() * fallingStars.length)];
         
         const $star = document.createElement('div');
         $star.className = 'falling-star';
@@ -378,8 +369,18 @@
         
         function handleClick(e) {
             e.stopPropagation();
+            
+            // First click ever? Show the special "first" poem regardless of which star
+            const hasClickedBefore = localStorage.getItem('rcrd-clicked-falling-star');
+            let poemToShow = starData;
+            
+            if (!hasClickedBefore) {
+                const firstPoem = fallingStars.find(s => s.first) || fallingStars[0];
+                poemToShow = firstPoem;
+            }
+            
             localStorage.setItem('rcrd-clicked-falling-star', 'true');
-            openFallingStarModal(starData);
+            openFallingStarModal(poemToShow);
             $star.remove();
         }
         
