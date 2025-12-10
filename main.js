@@ -375,15 +375,6 @@
         $body.className = 'falling-star-body';
         $star.appendChild($body);
         
-        // Show "click me" hint if user hasn't clicked a falling star before
-        const hasClickedBefore = localStorage.getItem('rcrd-clicked-falling-star');
-        if (!hasClickedBefore) {
-            const $hint = document.createElement('span');
-            $hint.className = 'falling-star-hint';
-            $hint.textContent = 'click me!';
-            $hint.style.setProperty('--star-angle', angle + 'deg');
-            $star.appendChild($hint);
-        }
         
         function handleClick(e) {
             e.stopPropagation();
