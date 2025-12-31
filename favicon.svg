@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <radialGradient id="galaxy-core" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#fff9f0" stop-opacity="0.9"/>
+      <stop offset="30%" stop-color="#a78bfa" stop-opacity="0.7"/>
+      <stop offset="60%" stop-color="#60a5fa" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#030108" stop-opacity="0.3"/>
+    </radialGradient>
+    <radialGradient id="spiral-arm-1" cx="30%" cy="40%">
+      <stop offset="0%" stop-color="#f472b6" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0.2"/>
+    </radialGradient>
+    <radialGradient id="spiral-arm-2" cx="70%" cy="60%">
+      <stop offset="0%" stop-color="#60a5fa" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#a78bfa" stop-opacity="0.2"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Background void -->
+  <rect width="64" height="64" fill="#030108"/>
+  
+  <!-- Spiral arms (outer) -->
+  <ellipse cx="32" cy="32" rx="28" ry="18" fill="url(#spiral-arm-1)" opacity="0.4" transform="rotate(-25 32 32)"/>
+  <ellipse cx="32" cy="32" rx="28" ry="18" fill="url(#spiral-arm-2)" opacity="0.4" transform="rotate(25 32 32)"/>
+  
+  <!-- Spiral arms (inner) -->
+  <ellipse cx="32" cy="32" rx="20" ry="12" fill="url(#spiral-arm-1)" opacity="0.5" transform="rotate(-15 32 32)"/>
+  <ellipse cx="32" cy="32" rx="20" ry="12" fill="url(#spiral-arm-2)" opacity="0.5" transform="rotate(15 32 32)"/>
+  
+  <!-- Galaxy core -->
+  <circle cx="32" cy="32" r="12" fill="url(#galaxy-core)"/>
+  <circle cx="32" cy="32" r="8" fill="#fff9f0" opacity="0.8"/>
+  <circle cx="32" cy="32" r="4" fill="#fff9f0" opacity="1"/>
+  
+  <!-- Bright stars scattered -->
+  <circle cx="20" cy="15" r="1" fill="#fff9f0" opacity="0.9"/>
+  <circle cx="45" cy="18" r="0.8" fill="#a8d4ff" opacity="0.8"/>
+  <circle cx="15" cy="45" r="1.2" fill="#ffd89b" opacity="0.7"/>
+  <circle cx="50" cy="50" r="0.9" fill="#fff9f0" opacity="0.8"/>
+  <circle cx="10" cy="30" r="0.7" fill="#a8d4ff" opacity="0.6"/>
+  <circle cx="55" cy="25" r="1" fill="#ffb6c1" opacity="0.7"/>
+</svg>
+

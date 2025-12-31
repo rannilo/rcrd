@@ -158,6 +158,21 @@ const stars = [
         image: null,
         links: []
     },
+    {
+        id: 'cfar',
+        name: 'CFAR',
+        type: 'organization',
+        x: 36,
+        y: 45,
+        size: 9,
+        color: '#a8d4ff',
+        labelPosition: 'left',
+        description: 'Attended a workshop by the Center for Applied Rationality near San Francisco.',
+        image: null,
+        links: [
+            { text: 'rationality.org', url: 'https://rationality.org/' }
+        ]
+    },
     
     // ═══════════════════════════════════════════════════════════
     // AI Safety cloud (inside EA)
@@ -396,7 +411,7 @@ const curiosityStars = [
         id: 'curiosity-rob-burbea',
         name: 'Rob Burbea lineage',
         type: 'curiosity',
-        x: 54,
+        x: 50,
         y: 66,
         size: 8,
         description: 'Late meditation teacher. Has an in-person and online presence.',

@@ -21,9 +21,17 @@
     const $cloudsLayer = document.getElementById('clouds-layer');
     const $starsLayer = document.getElementById('stars-layer');
     const $fallingStarsLayer = document.getElementById('falling-stars-layer');
+    const $curiosityBackgroundLayer = document.getElementById('curiosity-background-layer');
     const $curiosityToggle = document.getElementById('curiosity-toggle');
     const $starModal = document.getElementById('star-modal');
     const $fallingModal = document.getElementById('falling-star-modal');
+    const $tipsToggle = document.getElementById('tips-toggle');
+    const $tutorialOverlay = document.getElementById('tutorial-overlay');
+    const $tutorialStep = $tutorialOverlay.querySelector('.tutorial-step');
+    const $tutorialCounter = $tutorialOverlay.querySelector('.tutorial-counter');
+    const $tutorialPrev = $tutorialOverlay.querySelector('.tutorial-prev');
+    const $tutorialNext = $tutorialOverlay.querySelector('.tutorial-next');
+    const $tutorialClose = $tutorialOverlay.querySelector('.tutorial-close');
 
     /* ─────────────────────────────────────────────────────────────
        Initialization
@@ -40,35 +48,123 @@
     }
 
     function setUniverseSize() {
-        // Use viewport dimensions with minimum sizes
+        // Content area bounds - the stars/clouds are always positioned within this
         const minWidth = 900;
         const minHeight = 700;
+        const maxWidth = 1400;
+        const maxHeight = 900;
         
-        config.universeWidth = Math.max(window.innerWidth, minWidth);
-        config.universeHeight = Math.max(window.innerHeight, minHeight);
+        const isMobile = window.innerWidth < 900 || window.innerHeight < 700;
+        
+        // On mobile, use viewport size; on desktop, clamp between min and max
+        if (isMobile) {
+            config.universeWidth = Math.max(window.innerWidth, minWidth);
+            config.universeHeight = Math.max(window.innerHeight, minHeight);
+        } else {
+            config.universeWidth = Math.min(Math.max(window.innerWidth, minWidth), maxWidth);
+            config.universeHeight = Math.min(Math.max(window.innerHeight, minHeight), maxHeight);
+        }
         
         const universe = document.getElementById('universe');
         universe.style.width = config.universeWidth + 'px';
         universe.style.height = config.universeHeight + 'px';
         
-        [$cloudsLayer, $starsLayer, $fallingStarsLayer].forEach(layer => {
+        // On mobile, center the universe
+        if (isMobile) {
+            universe.style.left = '50%';
+            universe.style.top = '50%';
+            universe.style.transform = 'translate(-50%, -50%)';
+        } else {
+            // Desktop: center the universe if viewport is larger than content area
+            if (window.innerWidth > config.universeWidth) {
+                universe.style.left = '50%';
+                universe.style.transform = 'translateX(-50%)';
+            } else {
+                universe.style.left = '0';
+                universe.style.transform = 'none';
+            }
+            
+            // For vertical: center if viewport is taller
+            if (window.innerHeight > config.universeHeight) {
+                universe.style.top = '50%';
+                universe.style.transform = universe.style.transform === 'translateX(-50%)' 
+                    ? 'translate(-50%, -50%)' 
+                    : 'translateY(-50%)';
+            } else {
+                universe.style.top = '0';
+                if (universe.style.transform === 'translate(-50%, -50%)') {
+                    universe.style.transform = 'translateX(-50%)';
+                } else if (universe.style.transform === 'translateY(-50%)') {
+                    universe.style.transform = 'none';
+                }
+            }
+        }
+        
+        [$cloudsLayer, $starsLayer, $fallingStarsLayer, $curiosityBackgroundLayer].forEach(layer => {
             layer.style.width = config.universeWidth + 'px';
             layer.style.height = config.universeHeight + 'px';
         });
         
         // Handle resize
-        window.addEventListener('resize', () => {
-            config.universeWidth = Math.max(window.innerWidth, minWidth);
-            config.universeHeight = Math.max(window.innerHeight, minHeight);
+        window.addEventListener('resize', debounce(() => {
+            const isMobile = window.innerWidth < 900 || window.innerHeight < 700;
+            
+            if (isMobile) {
+                config.universeWidth = Math.max(window.innerWidth, minWidth);
+                config.universeHeight = Math.max(window.innerHeight, minHeight);
+            } else {
+                config.universeWidth = Math.min(Math.max(window.innerWidth, minWidth), maxWidth);
+                config.universeHeight = Math.min(Math.max(window.innerHeight, minHeight), maxHeight);
+            }
             
             universe.style.width = config.universeWidth + 'px';
             universe.style.height = config.universeHeight + 'px';
+            
+            // On mobile, always center
+            if (isMobile) {
+                universe.style.left = '50%';
+                universe.style.top = '50%';
+                universe.style.transform = 'translate(-50%, -50%)';
+            } else {
+                // Desktop: center horizontally
+                if (window.innerWidth > config.universeWidth) {
+                    universe.style.left = '50%';
+                    universe.style.transform = 'translateX(-50%)';
+                } else {
+                    universe.style.left = '0';
+                    universe.style.transform = 'none';
+                }
+                
+                // Center vertically  
+                if (window.innerHeight > config.universeHeight) {
+                    universe.style.top = '50%';
+                    universe.style.transform = universe.style.transform === 'translateX(-50%)' 
+                        ? 'translate(-50%, -50%)' 
+                        : 'translateY(-50%)';
+                } else {
+                    universe.style.top = '0';
+                    if (universe.style.transform === 'translate(-50%, -50%)') {
+                        universe.style.transform = 'translateX(-50%)';
+                    } else if (universe.style.transform === 'translateY(-50%)') {
+                        universe.style.transform = 'none';
+                    }
+                }
+            }
             
             [$cloudsLayer, $starsLayer, $fallingStarsLayer].forEach(layer => {
                 layer.style.width = config.universeWidth + 'px';
                 layer.style.height = config.universeHeight + 'px';
             });
-        });
+        }, 100));
+    }
+    
+    // Simple debounce helper
+    function debounce(fn, delay) {
+        let timeout;
+        return function(...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => fn.apply(this, args), delay);
+        };
     }
 
     /* ─────────────────────────────────────────────────────────────
@@ -221,6 +317,54 @@
         });
     }
 
+    function createCuriosityBackground() {
+        // Background stars (dim, decorative)
+        for (let i = 0; i < 40; i++) {
+            const $bgStar = document.createElement('div');
+            $bgStar.className = 'curiosity-bg-star';
+            
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            const size = Math.random() * 2 + 1;
+            const opacity = Math.random() * 0.3 + 0.1;
+            const delay = Math.random() * 5;
+            
+            $bgStar.style.cssText = `
+                left: ${x}%;
+                top: ${y}%;
+                width: ${size}px;
+                height: ${size}px;
+                opacity: ${opacity};
+                animation-delay: ${delay}s;
+            `;
+            
+            $curiosityBackgroundLayer.appendChild($bgStar);
+        }
+        
+        // Small galaxy-like spirals
+        for (let i = 0; i < 8; i++) {
+            const $galaxy = document.createElement('div');
+            $galaxy.className = 'curiosity-bg-galaxy';
+            
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            const size = Math.random() * 150 + 100;
+            const rotation = Math.random() * 360;
+            const opacity = Math.random() * 0.15 + 0.05;
+            
+            $galaxy.style.cssText = `
+                left: ${x}%;
+                top: ${y}%;
+                width: ${size}px;
+                height: ${size}px;
+                opacity: ${opacity};
+                transform: translate(-50%, -50%) rotate(${rotation}deg);
+            `;
+            
+            $curiosityBackgroundLayer.appendChild($galaxy);
+        }
+    }
+
     function createStarElement(star, className, allowClickable = true) {
         const $star = document.createElement('div');
         $star.className = `star ${className}`;
@@ -246,6 +390,12 @@
         if (allowClickable && star.description && star.description.trim() !== '') {
             $core.classList.add('clickable');
             $core.addEventListener('click', () => openStarModal(star));
+            
+            // Mark first clickable star as hint (only if user hasn't clicked any star yet)
+            const hasClickedStar = localStorage.getItem('rcrd-clicked-star');
+            if (!hasClickedStar && star.id === 'ea-estonia') {
+                $core.classList.add('hint-star');
+            }
         }
         
         $star.appendChild($core);
@@ -269,6 +419,12 @@
        ───────────────────────────────────────────────────────────── */
     
     function openStarModal(star) {
+        // Remove hint from hint star after first click
+        localStorage.setItem('rcrd-clicked-star', 'true');
+        document.querySelectorAll('.star-core.hint-star').forEach($hintStar => {
+            $hintStar.classList.remove('hint-star');
+        });
+        
         const $title = $starModal.querySelector('.modal-title');
         const $type = $starModal.querySelector('.modal-type');
         const $imageContainer = $starModal.querySelector('.modal-image-container');
@@ -366,6 +522,28 @@
         $body.className = 'falling-star-body';
         $star.appendChild($body);
         
+        // Show subtle hint on first falling star (one-time only)
+        const hasSeenFallingStarHint = localStorage.getItem('rcrd-seen-falling-star-hint');
+        if (!hasSeenFallingStarHint) {
+            const $hint = document.createElement('div');
+            $hint.className = 'falling-star-hint';
+            $hint.textContent = 'click';
+            // Counter-rotate to keep text upright
+            $hint.style.transform = `translateX(-50%) rotate(${-angle}deg)`;
+            $star.appendChild($hint);
+            localStorage.setItem('rcrd-seen-falling-star-hint', 'true');
+            
+            // Fade out hint after 4 seconds
+            setTimeout(() => {
+                if ($hint.parentNode) {
+                    $hint.style.opacity = '0';
+                    $hint.style.transition = 'opacity 1s ease-out';
+                    setTimeout(() => {
+                        if ($hint.parentNode) $hint.remove();
+                    }, 1000);
+                }
+            }, 4000);
+        }
         
         function handleClick(e) {
             e.stopPropagation();
@@ -476,12 +654,117 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
+       Tutorial System
+       ───────────────────────────────────────────────────────────── */
+    
+    const tutorialSteps = [
+        {
+            title: 'Welcome',
+            text: 'This universe represents a person\'s mind. Stars are nodes—people, places, ideas. Clusters are categories. There is a layer of curiosities—things not yet explored, on the periphery. You are now inside his mind. Tread with care.',
+            highlight: null
+        },
+        {
+            title: 'Click on stars',
+            text: 'The bright stars are clickable. Click them to learn more about people, places, and things.',
+            highlight: null
+        },
+        {
+            title: 'Shooting stars',
+            text: 'Occasionally, shooting stars will cross the screen. Click them to read poems and messages.',
+            highlight: null
+        },
+        {
+            title: 'Curiosity mode',
+            text: 'Press the "curiosity" button (or press "c") to reveal hidden stars—things to explore.',
+            highlight: 'curiosity-toggle'
+        },
+        {
+            title: 'Gas clouds',
+            text: 'Some cloud labels are clickable too. They represent clusters and categories.',
+            highlight: null
+        },
+        {
+            title: 'Keyboard shortcuts',
+            text: 'Press "c" to toggle curiosity mode. Press "f" to spawn a falling star. Press "Esc" to close modals.',
+            highlight: null
+        }
+    ];
+    
+    let currentTutorialStep = 0;
+    
+    function showTutorial() {
+        currentTutorialStep = 0;
+        updateTutorialStep();
+        $tutorialOverlay.setAttribute('aria-hidden', 'false');
+    }
+    
+    function closeTutorial() {
+        $tutorialOverlay.setAttribute('aria-hidden', 'true');
+        // Remove any highlights
+        document.querySelectorAll('.tutorial-highlight').forEach(el => {
+            el.classList.remove('tutorial-highlight');
+        });
+    }
+    
+    function updateTutorialStep() {
+        const step = tutorialSteps[currentTutorialStep];
+        $tutorialStep.innerHTML = `
+            <h3 class="tutorial-title">${step.title}</h3>
+            <p class="tutorial-text">${step.text}</p>
+        `;
+        
+        $tutorialCounter.textContent = `${currentTutorialStep + 1} / ${tutorialSteps.length}`;
+        
+        // Show/hide navigation buttons
+        $tutorialPrev.style.display = currentTutorialStep === 0 ? 'none' : 'block';
+        $tutorialNext.textContent = currentTutorialStep === tutorialSteps.length - 1 ? 'done' : '→';
+        
+        // Remove previous highlights
+        document.querySelectorAll('.tutorial-highlight').forEach(el => {
+            el.classList.remove('tutorial-highlight');
+        });
+        
+        // Add highlight if specified
+        if (step.highlight) {
+            const $target = document.getElementById(step.highlight);
+            if ($target) {
+                $target.classList.add('tutorial-highlight');
+            }
+        }
+    }
+    
+    function nextTutorialStep() {
+        if (currentTutorialStep < tutorialSteps.length - 1) {
+            currentTutorialStep++;
+            updateTutorialStep();
+        } else {
+            closeTutorial();
+        }
+    }
+    
+    function prevTutorialStep() {
+        if (currentTutorialStep > 0) {
+            currentTutorialStep--;
+            updateTutorialStep();
+        }
+    }
+
+    /* ─────────────────────────────────────────────────────────────
        Event Bindings
        ───────────────────────────────────────────────────────────── */
     
     function bindEvents() {
         // Curiosity toggle
         $curiosityToggle.addEventListener('click', toggleCuriosityMode);
+        
+        // Tips toggle
+        $tipsToggle.addEventListener('click', showTutorial);
+        
+        // Tutorial navigation
+        $tutorialNext.addEventListener('click', nextTutorialStep);
+        $tutorialPrev.addEventListener('click', prevTutorialStep);
+        $tutorialClose.addEventListener('click', closeTutorial);
+        $tutorialOverlay.querySelector('.tutorial-backdrop').addEventListener('click', closeTutorial);
         
         // Star modal close
         $starModal.querySelector('.modal-close').addEventListener('click', closeStarModal);
@@ -493,8 +776,22 @@
         // Keyboard navigation
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                closeStarModal();
-                closeFallingStarModal();
+                if ($tutorialOverlay.getAttribute('aria-hidden') === 'false') {
+                    closeTutorial();
+                } else {
+                    closeStarModal();
+                    closeFallingStarModal();
+                }
+            }
+            
+            // Tutorial navigation with arrow keys
+            if ($tutorialOverlay.getAttribute('aria-hidden') === 'false') {
+                if (e.key === 'ArrowRight') {
+                    nextTutorialStep();
+                } else if (e.key === 'ArrowLeft') {
+                    prevTutorialStep();
+                }
+                return;
             }
             
             // Toggle curiosity with 'c' key

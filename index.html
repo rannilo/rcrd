@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>o</title>
+    <title></title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -24,6 +25,9 @@
         
         <!-- Falling stars layer -->
         <div id="falling-stars-layer"></div>
+        
+        <!-- Curiosity background layer -->
+        <div id="curiosity-background-layer"></div>
     </div>
     
     <!-- Curiosity toggle -->
@@ -31,6 +35,25 @@
         <span class="toggle-icon">◐</span>
         <span class="toggle-text">curiosity</span>
     </button>
+    
+    <!-- Tips/Hints button -->
+    <button id="tips-toggle" aria-label="Show tips and hints">
+        <span class="tips-text">tips / hints</span>
+    </button>
+    
+    <!-- Tutorial overlay -->
+    <div id="tutorial-overlay" class="tutorial-overlay" aria-hidden="true">
+        <div class="tutorial-backdrop"></div>
+        <div class="tutorial-content">
+            <div class="tutorial-step"></div>
+            <div class="tutorial-navigation">
+                <button class="tutorial-prev" style="display: none;">←</button>
+                <span class="tutorial-counter"></span>
+                <button class="tutorial-next">→</button>
+                <button class="tutorial-close">×</button>
+            </div>
+        </div>
+    </div>
     
     <!-- Star popup modal -->
     <div id="star-modal" class="modal" aria-hidden="true">
