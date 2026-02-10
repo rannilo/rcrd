@@ -38,7 +38,7 @@
     
     <!-- Tips/Hints button -->
     <button id="tips-toggle" aria-label="Show tips and hints">
-        <span class="tips-text">tips / hints</span>
+        <span class="tips-text">?</span>
     </button>
     
     <!-- Tutorial overlay -->
@@ -81,6 +81,83 @@
             <button class="falling-translate-btn" style="display: none;">en</button>
         </div>
     </div>
+
+    <!-- Black Hole Portal -->
+    <div id="black-hole-portal" class="black-hole-portal" aria-hidden="true">
+        <div class="portal-interior">
+            <div class="tesseract-grid">
+                <div class="grid-ring ring-1"></div>
+                <div class="grid-ring ring-2"></div>
+                <div class="grid-ring ring-3"></div>
+                <div class="grid-ring ring-4"></div>
+                <div class="grid-ring ring-5"></div>
+            </div>
+            <div class="manifesto-scroll" id="manifesto-scroll">
+                <div class="manifesto-spacer"></div>
+                <div class="manifesto-content">
+                    <p class="manifesto-subtitle">Personal Mission Statement</p>
+
+                    <h2 class="manifesto-section">I</h2>
+                    <h3 class="manifesto-heading">the world could be more sane</h3>
+                    <p>Let's assume we want to make the world better. We want to:</p>
+                    <ul>
+                        <li>increase individual well-being, and</li>
+                        <li>reduce the emergence and existence of systemic global issues.</li>
+                    </ul>
+                    <p>You could approach it by tackling individual issues, like climate change. But what if we go one layer deeper. What if we attack the issue at the fundamental experience sense.</p>
+                    <p>What there was a set of exercises that anyone can do, that reliably produces higher degrees of peacefulness, baseline levels of well-being, and selfless compassion.</p>
+                    <p>I am talking about the path to &ldquo;enlightenment&rdquo;.</p>
+
+                    <h2 class="manifesto-section">II</h2>
+                    <h3 class="manifesto-heading">isn't that just a modern-day crusade?</h3>
+                    <p>Meditation doesn't ask you to believe in anything. All you need to do is try it and see what happens. If it doesn't survive empirical scrutiny, drop it.</p>
+                    <p>I look at meditation from a medical professional's perspective. They do not prescribe you medicine based on old texts from Aristotle. They give you something because it has survived rigorous analysis of cause and effect. And if that doesn't work for you, they give you something else.</p>
+                    <p>That's how meditation should work.</p>
+
+                    <h2 class="manifesto-section">III</h2>
+                    <h3 class="manifesto-heading">what are we aiming towards?</h3>
+                    <p>Not having achieved that myself, I still keep seeing similar experiences described at the end of different spiritual paths:</p>
+                    <ul>
+                        <li>Oneness, egolessness, &ldquo;being one with everything&rdquo;, an all-encompassing consciousness, emptiness, leading to a natural care for others, because there is no longer a distinction between You or Other.</li>
+                        <li>Unconditional love, mettā, selfless compassion. One that gives and doesn't expect anything in return.</li>
+                    </ul>
+
+                    <h2 class="manifesto-section">IV</h2>
+                    <h3 class="manifesto-heading">what if we were able to speedrun this at scale?</h3>
+                    <p>Through a combination of phenomenological inquiry, neuroscience, modern tools and technology, could we improve upon the instructions of the ancient texts, and find a reliable, faster, scalable, self-propagating path towards insight?</p>
+                    <p>Here, I already see good news: experience shows we don't have to take people the whole way. It is sufficient to take people just over the &ldquo;summit of the hill&rdquo;, so they start moving downhill themselves (with support and guidance available all the way through). And that in itself is a very achievable goal.</p>
+                    <p>Taking this in mind, what if we had something...</p>
+                    <ul class="manifesto-vision">
+                        <li>...as scalable as the Goenka Vipassana retreats</li>
+                        <li>...with the warmth and compassion of Theravadan retreats</li>
+                        <li>...with no-bullshit non-dogmatic secular straight-to-the-point instructions</li>
+                        <li>...enhanced by research like that done at the Qualia Research Institute</li>
+                        <li>...with the same encouragement of experimentation as at the Jhourney retreat</li>
+                    </ul>
+
+                    <h2 class="manifesto-section">V</h2>
+                    <h3 class="manifesto-heading">points of contention</h3>
+                    <ul class="manifesto-contentions">
+                        <li><strong>Meditation is not always pleasant.</strong> Daniel Ingram, among others, points out that the path towards enlightenment is not always pleasant, and may, at times, be markedly unpleasant. Here I merely wonder if there are ways of tackling the path that produce less side effects. Perhaps the Theravadan route of cultivating strong Jhanic practice before venturing into insight territory provides this resilience against weird and destabilizing insight experiences.</li>
+                        <li><strong>What kind of enlightenment do we want?</strong> There seems to be two seemingly contradictory descriptions of enlightenment. One being <em>&ldquo;seen will be merely what is seen; the heard will be merely what is heard...&rdquo;</em>, and the other emphasizing <em>&ldquo;the removal of lust, the removal of hatred, the removal of delusion&rdquo;</em>. Are these two separate paths?</li>
+                        <li><strong>Harmonious brains might not be enough.</strong> I am actually not at all convinced that even if everyone in the world reached &ldquo;the point of no return&rdquo; in meditation, we wouldn't have any problems. Especially knowing some problems persist even if nobody wants them to persist (think: Moloch).</li>
+                        <li><strong>How feasible is this?</strong> I have actually no idea about the feasibility (or in fact safety; or, god forbid, long-term unpredictable effects) of getting most people in the world across the hill of meditative insight. And, like, do you know how many people are there in the world? At least thousands!</li>
+                    </ul>
+                </div>
+                <div class="manifesto-spacer manifesto-spacer-end"></div>
+            </div>
+            <button class="portal-exit" id="portal-exit">return to the universe</button>
+        </div>
+    </div>
+
+    <!-- Event horizon flash overlay -->
+    <div id="event-horizon-flash"></div>
+
+    <!-- Admin mode coordinate display -->
+    <div id="admin-coords"></div>
+
+    <!-- Portal audio -->
+    <audio id="portal-audio" preload="auto" src="Minecraft Soundtrack - The End (End).mp3"></audio>
 
     <script src="data.js"></script>
     <script src="main.js"></script>

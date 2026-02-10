@@ -5,7 +5,7 @@
 
 /**
  * GAS CLOUDS — Represent clusters/categories
- * 
+ *
  * Properties:
  * - id: unique identifier
  * - name: display label
@@ -52,10 +52,10 @@ const gasClouds = [
     {
         id: 'folklore',
         name: 'Folklore',
-        color: 'rgba(180, 255, 180, 0.3)',
+        color: 'rgba(100, 230, 140, 0.4)',
         x: 74,
         y: 30,
-        size: 90,
+        size: 180,
         description: '',
         links: []
     },
@@ -64,8 +64,28 @@ const gasClouds = [
         name: 'Meditation',
         color: 'rgba(255, 220, 140, 0.45)',
         x: 62,
-        y: 68,
+        y: 62,
         size: 300,
+        description: '',
+        links: []
+    },
+    {
+        id: 'post-capitalism',
+        name: 'Post-capitalism',
+        color: 'rgba(255, 140, 180, 0.5)',
+        x: 48,
+        y: 20,
+        size: 200,
+        description: 'Curious about exploring different ways we could set up society such that it\'s beneficial for all beings.',
+        links: []
+    },
+    {
+        id: 'embodiment',
+        name: 'Embodiment Practices',
+        color: 'rgba(200, 160, 120, 0.45)',
+        x: 50,
+        y: 85,
+        size: 180,
         description: '',
         links: []
     }
@@ -74,7 +94,7 @@ const gasClouds = [
 
 /**
  * STARS — Specific things (people, places, organizations, etc.)
- * 
+ *
  * Properties:
  * - id: unique identifier
  * - name: display name
@@ -94,8 +114,8 @@ const stars = [
         id: 'ea-estonia',
         name: 'EA Estonia',
         type: 'organization',
-        x: 30,
-        y: 30,
+        x: 33,
+        y: 21,
         size: 12,
         color: '#a8d4ff',
         labelPosition: 'left',
@@ -109,8 +129,8 @@ const stars = [
         id: 'anneta-targalt',
         name: 'Anneta Targalt',
         type: 'organization',
-        x: 32,
-        y: 33,
+        x: 36,
+        y: 27,
         size: 8,
         labelPosition: 'left',
         color: '#a8d4ff',
@@ -121,23 +141,11 @@ const stars = [
         ]
     },
     {
-        id: 'prague',
-        name: 'Prague',
-        type: 'place',
-        x: 42,
-        y: 35,
-        size: 11,
-        color: '#fff9f0',
-        description: '',
-        image: null,
-        links: []
-    },
-    {
         id: 'eagx-prague',
         name: 'EAGxPrague',
         type: 'event',
-        x: 24,
-        y: 47,
+        x: 17,
+        y: 38,
         size: 6,
         color: '#c4b5fd',
         labelPosition: 'left',
@@ -149,8 +157,8 @@ const stars = [
         id: 'eagx-nordics',
         name: 'EAGxNordics',
         type: 'event',
-        x: 26,
-        y: 44,
+        x: 15,
+        y: 34,
         size: 6,
         color: '#c4b5fd',
         labelPosition: 'left',
@@ -162,8 +170,8 @@ const stars = [
         id: 'cfar',
         name: 'CFAR',
         type: 'organization',
-        x: 36,
-        y: 45,
+        x: 42,
+        y: 32,
         size: 9,
         color: '#a8d4ff',
         labelPosition: 'left',
@@ -173,79 +181,72 @@ const stars = [
             { text: 'rationality.org', url: 'https://rationality.org/' }
         ]
     },
-    
+    {
+        id: 'peter-singer',
+        name: 'Peter Singer',
+        type: 'person',
+        x: 29,
+        y: 32,
+        size: 10,
+        color: '#a8d4ff',
+        labelPosition: 'left',
+        description: 'Moral philosopher. One of the intellectual roots of effective altruism. Author of Animal Liberation.',
+        image: null,
+        links: []
+    },
+
     // ═══════════════════════════════════════════════════════════
     // AI Safety cloud (inside EA)
     // ═══════════════════════════════════════════════════════════
     {
-        id: 'jum',
-        name: 'JuM',
-        type: 'organization',
-        x: 22,
-        y: 56,
-        size: 9,
-        color: '#e0aaff',
-        description: 'Did an internship at the Estonian Ministry of Justice working on local and EU AI safety policy. Fun times! Though I learned I\'m not the type to do this full-time.',
-        image: null,
-        links: []
-    },
-    {
-        id: 'london',
-        name: 'London',
-        type: 'place',
-        x: 32,
-        y: 56,
+        id: 'eliezer-yudkowsky',
+        name: 'Eliezer Yudkowsky',
+        type: 'person',
+        x: 25,
+        y: 51,
         size: 10,
-        color: '#fff9f0',
-        description: '',
-        image: null,
-        links: []
-    },
-    {
-        id: 'blackpool',
-        name: 'Blackpool',
-        type: 'place',
-        x: 28,
-        y: 60,
-        size: 8,
-        color: '#fff9f0',
-        description: 'Home of CEEALAR, the "EA Hotel"—a wild concept where you can live and eat for free as long as you\'re doing impactful work. I stayed here for a few months and had great encounters with PauseAI.',
+        color: '#e0aaff',
+        labelPosition: 'left',
+        description: 'AI alignment researcher, writer, co-founder of MIRI. Loud about the risks.',
         image: null,
         links: [
-            { text: 'ceealar.org', url: 'https://www.ceealar.org/' }
+            { text: '𝕏', url: 'https://x.com/ESYudkowsky' }
         ]
     },
-    
+    {
+        id: 'convergence-analysis',
+        name: 'Convergence Analysis',
+        type: 'organization',
+        x: 26,
+        y: 59,
+        size: 8,
+        color: '#e0aaff',
+        description: 'An AI safety company building safer AI systems.',
+        image: null,
+        links: [
+            { text: 'convergenceanalysis.org', url: 'https://convergenceanalysis.org/' }
+        ]
+    },
+
     // ═══════════════════════════════════════════════════════════
     // Intersection of EA & TPOT
     // ═══════════════════════════════════════════════════════════
     {
-        id: 'berlin',
-        name: 'Berlin',
-        type: 'place',
-        x: 46,
-        y: 42,
-        size: 12,
-        color: '#ffd89b',
-        description: 'The gateway between rationalism and post-rationalism.',
-        image: null,
-        links: []
-    },
-    {
         id: 'kiezburn',
         name: 'KiezBurn',
         type: 'event',
-        x: 52,
-        y: 40,
+        x: 57,
+        y: 26,
         size: 9,
         color: '#ffb08a',
+        labelPosition: 'bottom',
         description: 'A Burning Man type event in Germany.',
         image: null,
         links: [
             { text: 'kiezburn.org', url: 'https://mmm.kiezburn.org/' }
         ]
     },
-    
+
     // ═══════════════════════════════════════════════════════════
     // TPOT cloud
     // ═══════════════════════════════════════════════════════════
@@ -254,27 +255,28 @@ const stars = [
         name: 'The Garden',
         type: 'place',
         x: 60,
-        y: 36,
+        y: 31,
         size: 10,
         color: '#ffb08a',
+        labelPosition: 'bottom',
         description: 'A magical forest you sometimes get lost in while walking around northern Portugal. Inhabited by fairies and forest elves who give you tea and tell you stories. You will miss them.',
         image: null,
         links: [
             { text: 'thegarden.pt', url: 'https://thegarden.pt/' }
         ]
     },
-    
+
     // ═══════════════════════════════════════════════════════════
     // Folklore cloud & overlap with TPOT
     // ═══════════════════════════════════════════════════════════
     {
         id: 'jung',
-        name: 'Jung',
+        name: 'Carl Jung',
         type: 'concept',
-        x: 68,
-        y: 36,
+        x: 69,
+        y: 46,
         size: 9,
-        color: '#b8e6b8',
+        color: '#8ce0a0',
         description: 'Anything related to archetypes, dreams, the subconscious, shadow, myths, folklore, including religious stories is interesting. It relates to the quest of understanding yourself, developing yourself, and understanding others and humans as a whole.',
         image: null,
         links: []
@@ -283,84 +285,107 @@ const stars = [
         id: 'runosongs',
         name: 'Runosongs',
         type: 'tradition',
-        x: 78,
-        y: 22,
+        x: 88,
+        y: 16,
         size: 8,
-        color: '#b8e6b8',
+        color: '#8ce0a0',
         description: 'An unusual way of singing that turns common ideologies on their head. Songs are repetitive, cyclical, long—the lead singer sings and everyone else repeats. Instead of "pop star admiration" you get collective breathing, until you almost meld into the collective voice.',
         image: null,
         links: [
             { text: 'see example', url: 'https://arhiiv.err.ee/video/vaata/folklooriansambel-hellero' }
         ]
     },
-    
+    {
+        id: 'mythology',
+        name: 'Mythology',
+        type: 'concept',
+        x: 77,
+        y: 21,
+        size: 8,
+        color: '#8ce0a0',
+        description: 'The stories cultures tell to make sense of the world. Creation, destruction, transformation—the same patterns everywhere.',
+        image: null,
+        links: []
+    },
+    {
+        id: 'fairy-tales',
+        name: 'Fairy Tales',
+        type: 'concept',
+        x: 80,
+        y: 30,
+        size: 7,
+        color: '#8ce0a0',
+        labelPosition: 'bottom',
+        description: 'Not just for children. Encoded wisdom about navigating the dark forest, facing the shadow, and finding your way home.',
+        image: null,
+        links: []
+    },
+
     // ═══════════════════════════════════════════════════════════
     // Meditation cloud
     // ═══════════════════════════════════════════════════════════
     {
-        id: 'goenka',
-        name: 'Goenka',
-        type: 'teacher',
-        x: 70,
-        y: 78,
-        size: 13,
+        id: 'vipassana',
+        name: 'Vipassanā',
+        type: 'practice',
+        x: 63,
+        y: 79,
+        size: 11,
         color: '#ffe4a0',
-        description: 'Widely available Vipassana training courses. Note: Intense.',
+        description: 'Insight meditation. Attended several S. N. Goenka retreats—10-day silent courses of rigorous self-observation. Intense and transformative.',
         image: null,
         links: [
             { text: 'dhamma.org', url: 'https://www.dhamma.org/en-US/index' }
         ]
     },
     {
-        id: 'theravada',
-        name: 'Theravada',
-        type: 'tradition',
-        x: 56,
-        y: 76,
-        size: 10,
+        id: 'jhanas',
+        name: 'Jhānas',
+        type: 'practice',
+        x: 66,
+        y: 66,
+        size: 9,
         color: '#ffe4a0',
-        description: 'A Buddhist lineage with a presence in Estonia.',
-        image: null,
-        links: [
-            { text: 'sangha.ee', url: 'https://sangha.ee/' }
-        ]
-    },
-    
-    // ═══════════════════════════════════════════════════════════
-    // Intersection of TPOT & Meditation
-    // ═══════════════════════════════════════════════════════════
-    {
-        id: 'tmi',
-        name: 'TMI',
-        type: 'book',
-        x: 56,
-        y: 58,
-        size: 7,
-        color: '#ffd0a0',
-        description: 'The Mind Illuminated by Culadasa—a pragmatic, step-by-step guide for concentration practice. Followed it for a while.',
+        description: 'Deep meditative absorption states. Concentration deepens through stages of rapture, bliss, contentment, and equanimity. A technology for exploring the nature of mind.',
         image: null,
         links: []
     },
     {
-        id: 'mctb',
-        name: 'MCTB',
-        type: 'book',
-        x: 68,
-        y: 56,
-        size: 10,
-        color: '#ffd0a0',
-        description: 'Mastering the Core Teachings of the Buddha by arahant Daniel M. Ingram—an "unusually hardcore" dharma book.',
+        id: 'brahma-viharas',
+        name: 'Brahmavihāras',
+        type: 'practice',
+        x: 71,
+        y: 74,
+        size: 8,
+        color: '#ffe4a0',
+        description: 'The four sublime abodes—mettā (loving-kindness), karuṇā (compassion), muditā (sympathetic joy), and upekkhā (equanimity). Heart practices.',
+        image: null,
+        links: []
+    },
+    {
+        id: 'rob-burbea',
+        name: 'Rob Burbea',
+        type: 'teacher',
+        x: 58,
+        y: 69,
+        size: 9,
+        color: '#ffe4a0',
+        description: 'A beloved meditation teacher who explored the jhānas, soulmaking, and the imaginal in dharma practice. Taught at Gaia House.',
         image: null,
         links: [
-            { text: 'Scott Alexander\'s review', url: 'https://slatestarcodex.com/2017/09/18/book-review-mastering-the-core-teachings-of-the-buddha/' }
+            { text: 'robburbea.com', url: 'https://www.robburbea.com/' }
         ]
     },
+
+    // ═══════════════════════════════════════════════════════════
+    // Intersection of TPOT & Meditation
+    // ═══════════════════════════════════════════════════════════
     {
         id: 'qri',
         name: 'QRI',
         type: 'organization',
-        x: 66,
-        y: 48,
+        x: 49,
+        y: 57,
         size: 7,
         color: '#ffd0a0',
         description: 'Qualia Research Institute—a research organisation investigating psychedelics, consciousness and meditation. Building a new science of consciousness. Fully endorse.',
@@ -373,11 +398,80 @@ const stars = [
         id: 'noting',
         name: 'Noting',
         type: 'practice',
-        x: 60,
-        y: 60,
+        x: 71,
+        y: 57,
         size: 7,
         color: '#ffd0a0',
         description: 'A meditation technique where you note your experience, either verbally in your head or nonverbally. Helps discern more and more subtle experiences.',
+        image: null,
+        links: []
+    },
+
+    // ═══════════════════════════════════════════════════════════
+    // Post-capitalism cloud (near TPOT)
+    // ═══════════════════════════════════════════════════════════
+    {
+        id: 'mark-fisher',
+        name: 'Mark Fisher',
+        type: 'person',
+        x: 48,
+        y: 13,
+        size: 10,
+        color: '#ffb8d0',
+        description: 'Cultural theorist and writer. Explored hauntology, the eerie, and the failures of neoliberalism. Author of Capitalist Realism.',
+        image: null,
+        links: []
+    },
+    {
+        id: 'postcapitalist-desire',
+        name: 'Postcapitalist Desire',
+        type: 'book',
+        x: 45,
+        y: 6,
+        size: 8,
+        color: '#ffb8d0',
+        description: 'Posthumous collection of Mark Fisher\'s lectures on what lies beyond capitalism.',
+        image: null,
+        links: []
+    },
+    {
+        id: 'dhammic-socialism',
+        name: 'Dhammic Socialism',
+        type: 'book',
+        x: 57,
+        y: 5,
+        size: 7,
+        color: '#ffb8d0',
+        description: 'Buddhadasa Bhikkhu\'s vision of a society guided by dhamma—nature, truth, duty—rather than greed.',
+        image: null,
+        links: []
+    },
+
+    // ═══════════════════════════════════════════════════════════
+    // Embodiment Practices cloud (near Meditation)
+    // ═══════════════════════════════════════════════════════════
+    {
+        id: 'jiu-jitsu',
+        name: 'Jiu-jitsu',
+        type: 'practice',
+        x: 43,
+        y: 77,
+        size: 9,
+        color: '#d4c4a0',
+        description: 'The gentle art. Learning to move, grapple, and be fully present in the body.',
+        image: null,
+        links: []
+    },
+    {
+        id: 'qigong',
+        name: 'Qigong',
+        type: 'practice',
+        x: 55,
+        y: 78,
+        size: 8,
+        color: '#d4c4a0',
+        labelPosition: 'bottom',
+        description: 'Ancient Chinese movement practice. Cultivating and balancing life energy through slow, intentional forms.',
         image: null,
         links: []
     }
@@ -398,40 +492,28 @@ const curiosityStars = [
         name: 'Monasteries in East-Asia',
         type: 'curiosity',
         x: 70,
-        y: 78,
+        y: 72,
         size: 9,
         description: 'Self-explanatory. I wanna dive into retreats for 2 years and see what happens.',
         links: []
     },
-    
+
     // ═══════════════════════════════════════════════════════════
     // Meditation (close to intersection)
     // ═══════════════════════════════════════════════════════════
-    {
-        id: 'curiosity-rob-burbea',
-        name: 'Rob Burbea lineage',
-        type: 'curiosity',
-        x: 50,
-        y: 66,
-        size: 8,
-        description: 'Late meditation teacher. Has an in-person and online presence.',
-        links: [
-            { text: 'hermesamara.org', url: 'https://hermesamara.org/' }
-        ]
-    },
     {
         id: 'curiosity-gaia-house',
         name: 'Gaia House',
         type: 'curiosity',
         x: 60,
-        y: 72,
+        y: 66,
         size: 8,
         description: 'A meditation retreat center.',
         links: [
             { text: 'gaiahouse.co.uk', url: 'https://gaiahouse.co.uk/' }
         ]
     },
-    
+
     // ═══════════════════════════════════════════════════════════
     // TPOT / Meditation intersection
     // ═══════════════════════════════════════════════════════════
@@ -439,15 +521,15 @@ const curiosityStars = [
         id: 'curiosity-dharma-overground',
         name: 'Dharma Overground',
         type: 'forum',
-        x: 60,
-        y: 58,
+        x: 62,
+        y: 54,
         size: 8,
         description: 'A forum for analytical-minded meditators.',
         links: [
             { text: 'dharmaoverground.org', url: 'https://www.dharmaoverground.org/' }
         ]
     },
-    
+
     // ═══════════════════════════════════════════════════════════
     // TPOT cloud
     // ═══════════════════════════════════════════════════════════
@@ -455,7 +537,7 @@ const curiosityStars = [
         id: 'curiosity-casa-tilo',
         name: 'Casa Tilo',
         type: 'curiosity',
-        x: 52,
+        x: 54,
         y: 38,
         size: 8,
         description: 'A co-living / event space with post-rationalist / TPOT roots.',
@@ -465,7 +547,7 @@ const curiosityStars = [
         id: 'curiosity-vibecamp',
         name: 'Vibecamp',
         type: 'curiosity',
-        x: 56,
+        x: 58,
         y: 34,
         size: 9,
         description: 'A gathering of TPOT people.',
@@ -477,8 +559,8 @@ const curiosityStars = [
         id: 'curiosity-fight-wise',
         name: 'Fight Wise',
         type: 'curiosity',
-        x: 50,
-        y: 48,
+        x: 44,
+        y: 42,
         size: 7,
         description: 'An online training program to learn to speak your truth, hold your ground and ask what you need.',
         links: [
@@ -499,13 +581,13 @@ const curiosityStars = [
         id: 'curiosity-coliving',
         name: 'Other co-living spaces',
         type: 'curiosity',
-        x: 52,
-        y: 52,
+        x: 60,
+        y: 56,
         size: 7,
         description: 'I\'ve heard there are some great places in Portugal and Spain.',
         links: []
     },
-    
+
     // ═══════════════════════════════════════════════════════════
     // Folklore cloud
     // ═══════════════════════════════════════════════════════════
@@ -513,13 +595,55 @@ const curiosityStars = [
         id: 'curiosity-smoke-saunas',
         name: 'Smoke saunas',
         type: 'curiosity',
-        x: 78,
-        y: 26,
+        x: 88,
+        y: 24,
         size: 8,
         description: 'This has been explained to me as a borderline religious experience, if done correctly.',
         links: [
             { text: 'watch', url: 'https://www.youtube.com/watch?v=8Yq9Fej3xGo' }
         ]
+    },
+
+    // ═══════════════════════════════════════════════════════════
+    // TPOT / Burning Man overlap
+    // ═══════════════════════════════════════════════════════════
+    {
+        id: 'curiosity-nowhere',
+        name: 'Nowhere',
+        type: 'event',
+        x: 56,
+        y: 42,
+        size: 8,
+        description: 'A Burning Man event in Spain.',
+        links: [
+            { text: 'goingnowhere.org', url: 'https://www.goingnowhere.org/' }
+        ]
+    },
+
+    // ═══════════════════════════════════════════════════════════
+    // Meditation curiosity
+    // ═══════════════════════════════════════════════════════════
+    {
+        id: 'curiosity-suan-mokh',
+        name: 'Suan Mokh',
+        type: 'curiosity',
+        x: 66,
+        y: 76,
+        size: 8,
+        description: 'A forest monastery in southern Thailand founded by Buddhadasa Bhikkhu. Runs 10-day silent retreats.',
+        links: [
+            { text: 'suanmokkh.org', url: 'https://www.suanmokkh.org/' }
+        ]
+    },
+    {
+        id: 'curiosity-new-social-face-buddhism',
+        name: 'The New Social Face of Buddhism',
+        type: 'book',
+        x: 50,
+        y: 68,
+        size: 7,
+        description: 'By Ken Jones. Exploring engaged Buddhism and its relationship to social change.',
+        links: []
     }
 ];
 
@@ -527,7 +651,7 @@ const curiosityStars = [
 /**
  * FALLING STARS — Ephemeral messages/poems
  * These appear randomly and fade away
- * 
+ *
  * Properties:
  * - id: unique identifier
  * - text: the message or poem (can include line breaks with \n)
@@ -575,21 +699,29 @@ const fallingStars = [
 
 
 /**
+ * BLACK HOLE — Hidden portal to manifesto
+ */
+const blackHole = {
+    x: 46,
+    y: 50,
+    size: 16
+};
+
+
+/**
  * CONFIGURATION
  */
 const config = {
     // How often falling stars appear (in ms)
-    fallingStarInterval: 60000,
-    
+    fallingStarInterval: 150000,
+
     // Variance in falling star timing (random ± this value in ms)
-    fallingStarVariance: 40000,
-    
+    fallingStarVariance: 90000,
+
     // Number of ambient particles
     particleCount: 80,
-    
+
     // Universe size - use viewport dimensions
     universeWidth: null,  // Set dynamically
     universeHeight: null  // Set dynamically
 };
-
-

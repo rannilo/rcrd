@@ -66,17 +66,19 @@ body {
     min-height: 700px;
 }
 
-/* Mobile: allow scrolling and remove min constraints */
-@media (max-width: 900px), (max-height: 700px) {
+/* Mobile: fit viewport, no scrolling */
+@media (max-width: 767px) {
     body {
-        overflow: auto;
+        overflow: hidden;
         min-width: 0;
         min-height: 0;
     }
-    
+
     #universe {
         min-width: 0;
         min-height: 0;
+        max-width: none;
+        max-height: none;
     }
 }
 
@@ -167,10 +169,12 @@ body.curiosity-mode::after {
     overflow: visible;
 }
 
-@media (max-width: 900px), (max-height: 700px) {
+@media (max-width: 767px) {
     #universe {
-        min-width: 900px;
-        min-height: 700px;
+        min-width: 0;
+        min-height: 0;
+        max-width: none;
+        max-height: none;
     }
 }
 
@@ -370,6 +374,12 @@ body.curiosity-mode .cloud-label.curiosity-highlight {
 }
 
 /* Custom label positions */
+.star-label.label-bottom {
+    left: 50%;
+    top: calc(100% + 10px);
+    transform: translateX(-50%);
+}
+
 .star-label.label-top {
     top: auto;
     bottom: calc(100% + 10px);
@@ -439,34 +449,16 @@ body.curiosity-mode .star.curiosity-star {
 }
 
 body.curiosity-mode .star.curiosity-star .star-core {
-    background: #2dd4bf;
-    box-shadow: 
-        0 0 20px #2dd4bf,
-        0 0 40px #2dd4bf,
-        0 0 60px color-mix(in srgb, #2dd4bf 60%, transparent),
-        0 0 80px color-mix(in srgb, #2dd4bf 40%, transparent);
+    background: #e8d5f5;
+    box-shadow:
+        0 0 12px rgba(200, 180, 230, 0.6),
+        0 0 25px rgba(200, 180, 230, 0.3),
+        0 0 40px rgba(167, 139, 250, 0.15);
     opacity: 1;
-    transform: scale(1.1);
+    transform: scale(1);
     pointer-events: auto;
-    animation: curiosity-glow 3s ease-in-out infinite;
+    animation: none;
     filter: brightness(1);
-}
-
-@keyframes curiosity-glow {
-    0%, 100% {
-        box-shadow: 
-            0 0 20px #2dd4bf,
-            0 0 40px #2dd4bf,
-            0 0 60px color-mix(in srgb, #2dd4bf 60%, transparent),
-            0 0 80px color-mix(in srgb, #2dd4bf 40%, transparent);
-    }
-    50% {
-        box-shadow: 
-            0 0 30px #2dd4bf,
-            0 0 50px #2dd4bf,
-            0 0 70px color-mix(in srgb, #2dd4bf 70%, transparent),
-            0 0 100px color-mix(in srgb, #2dd4bf 50%, transparent);
-    }
 }
 
 body.curiosity-mode .star.curiosity-star .star-core.clickable {
@@ -474,12 +466,11 @@ body.curiosity-mode .star.curiosity-star .star-core.clickable {
 }
 
 body.curiosity-mode .star.curiosity-star .star-core.clickable:hover {
-    transform: scale(1.2);
-    box-shadow: 
-        0 0 35px #2dd4bf,
-        0 0 60px #2dd4bf,
-        0 0 80px color-mix(in srgb, #2dd4bf 70%, transparent),
-        0 0 120px color-mix(in srgb, #2dd4bf 60%, transparent);
+    transform: scale(1.15);
+    box-shadow:
+        0 0 18px rgba(200, 180, 230, 0.8),
+        0 0 35px rgba(200, 180, 230, 0.5),
+        0 0 60px rgba(167, 139, 250, 0.3);
 }
 
 .star.curiosity-star .star-label {
@@ -487,47 +478,34 @@ body.curiosity-mode .star.curiosity-star .star-core.clickable:hover {
 }
 
 body.curiosity-mode .star.curiosity-star .star-label {
-    opacity: 0.95;
-    color: #a5f3fc;
-    text-shadow: 
-        0 0 10px #2dd4bf,
-        0 0 20px #8b5cf6,
-        0 0 30px rgba(96, 165, 250, 0.8);
+    opacity: 0.8;
+    color: rgba(220, 210, 240, 0.9);
+    text-shadow:
+        0 0 8px rgba(167, 139, 250, 0.4),
+        0 0 16px rgba(0, 0, 0, 0.8);
 }
 
 /* Curiosity stars with no description - more muted */
 body.curiosity-mode .star.curiosity-star.no-info .star-core {
-    opacity: 0.7;
-    transform: scale(0.9);
-    box-shadow: 
-        0 0 15px #2dd4bf,
-        0 0 25px #2dd4bf,
-        0 0 35px color-mix(in srgb, #2dd4bf 50%, transparent);
+    opacity: 0.5;
+    transform: scale(0.85);
+    box-shadow:
+        0 0 8px rgba(200, 180, 230, 0.4),
+        0 0 15px rgba(200, 180, 230, 0.2);
 }
 
 body.curiosity-mode .star.curiosity-star.no-info .star-label {
-    opacity: 0.6;
+    opacity: 0.5;
 }
 
 /* Curiosity background elements */
 .curiosity-bg-star {
     position: absolute;
     border-radius: 50%;
-    background: #2dd4bf;
-    box-shadow: 0 0 4px #2dd4bf;
-    animation: curiosity-bg-twinkle 4s ease-in-out infinite;
+    background: rgba(200, 180, 230, 0.6);
+    box-shadow: 0 0 3px rgba(167, 139, 250, 0.4);
+    opacity: 0.25;
     pointer-events: none;
-}
-
-@keyframes curiosity-bg-twinkle {
-    0%, 100% {
-        opacity: 0.2;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 0.4;
-        transform: scale(1.1);
-    }
 }
 
 .curiosity-bg-galaxy {
@@ -535,12 +513,12 @@ body.curiosity-mode .star.curiosity-star.no-info .star-label {
     border-radius: 50%;
     background: radial-gradient(
         ellipse at center,
-        rgba(45, 212, 191, 0.2) 0%,
-        rgba(45, 212, 191, 0.1) 30%,
+        rgba(167, 139, 250, 0.1) 0%,
+        rgba(167, 139, 250, 0.05) 30%,
         transparent 60%
     );
     pointer-events: none;
-    filter: blur(20px);
+    filter: blur(25px);
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -643,12 +621,13 @@ body.curiosity-mode .star.curiosity-star.no-info .star-label {
    ═══════════════════════════════════════════════════════════════ */
 
 #curiosity-toggle {
+    display: none;
     position: fixed;
     bottom: 2rem;
     right: 2rem;
     z-index: 1000;
-    
-    display: flex;
+
+    /* display: flex; — hidden for now */
     align-items: center;
     gap: 0.5rem;
     
@@ -700,6 +679,7 @@ body.curiosity-mode #curiosity-toggle .toggle-icon {
    ═══════════════════════════════════════════════════════════════ */
 
 #tips-toggle {
+    display: none;
     position: fixed;
     bottom: 2rem;
     left: 2rem;
@@ -711,9 +691,9 @@ body.curiosity-mode #curiosity-toggle .toggle-icon {
     padding: 0.6rem 1.2rem;
     
     font-family: var(--font-mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    text-transform: lowercase;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
     color: rgba(255, 255, 255, 0.5);
     
     cursor: pointer;
@@ -1126,29 +1106,810 @@ body.curiosity-mode #curiosity-toggle .toggle-icon {
    Responsive Adjustments
    ═══════════════════════════════════════════════════════════════ */
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     #curiosity-toggle {
         bottom: 1rem;
         right: 1rem;
         padding: 0.5rem 1rem;
     }
-    
+
     .toggle-text {
         display: none;
     }
-    
+
     .modal-content {
         padding: 1.5rem;
-        margin: 1rem;
+        margin: 0.75rem;
+        max-height: 85vh;
     }
-    
-    .modal-title {
-        font-size: 1.4rem;
+
+    /* Bigger touch targets on mobile */
+    .star-core.clickable::after {
+        content: '';
+        position: absolute;
+        inset: -8px;
     }
-    
+
     .cloud-label {
-        font-size: 0.55rem;
+        padding: 12px 20px;
+        margin: -12px -20px;
     }
+
+    /* Scale down gas cloud blur for performance */
+    .gas-cloud {
+        filter: blur(35px);
+    }
+
+    /* Manifesto: tighter spacing on mobile */
+    .manifesto-content {
+        padding: 0 1.25rem;
+        max-width: 100%;
+    }
+
+    .portal-exit {
+        bottom: 1.5rem;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Black Hole — Hidden portal
+   ═══════════════════════════════════════════════════════════════ */
+
+.black-hole {
+    position: absolute;
+    z-index: 15;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+/* Gravitational lensing zone */
+.black-hole::before {
+    content: '';
+    position: absolute;
+    top: -60%;
+    left: -60%;
+    width: 220%;
+    height: 220%;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle at center,
+        rgba(0, 0, 0, 0.4) 18%,
+        rgba(0, 0, 0, 0.12) 38%,
+        transparent 62%
+    );
+    pointer-events: none;
+    transition: transform 0.8s ease;
+}
+
+.black-hole:hover::before {
+    transform: scale(1.15);
+}
+
+.black-hole-core {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+    background: radial-gradient(
+        circle at center,
+        #000000 0%,
+        #000000 36%,
+        rgba(8, 0, 18, 0.95) 46%,
+        rgba(30, 8, 55, 0.45) 56%,
+        transparent 70%
+    );
+    box-shadow:
+        0 0 20px rgba(0, 0, 0, 0.95),
+        0 0 40px rgba(0, 0, 0, 0.6),
+        0 0 2px 1px rgba(255, 180, 100, 0.5),
+        0 0 8px 2px rgba(255, 140, 60, 0.3),
+        0 0 18px 4px rgba(255, 100, 40, 0.12),
+        0 0 50px rgba(80, 20, 120, 0.15),
+        0 0 80px rgba(60, 10, 100, 0.08),
+        inset 0 0 20px rgba(0, 0, 0, 1),
+        inset 0 0 35px rgba(0, 0, 0, 0.7);
+    animation: bh-breathe 5s ease-in-out infinite;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.8s ease;
+}
+
+/* Photon ring */
+.black-hole-core::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 190, 120, 0.2);
+    box-shadow:
+        0 0 6px rgba(255, 170, 90, 0.2),
+        0 0 12px rgba(255, 140, 60, 0.1),
+        inset 0 0 6px rgba(255, 170, 90, 0.1);
+    animation: photon-shimmer 3s ease-in-out infinite alternate;
+}
+
+/* Inner event horizon edge glow */
+.black-hole-core::after {
+    content: '';
+    position: absolute;
+    inset: 8%;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        transparent 45%,
+        rgba(255, 150, 80, 0.03) 65%,
+        rgba(255, 100, 40, 0.05) 80%,
+        transparent 100%
+    );
+    animation: inner-pulse 4s ease-in-out infinite alternate;
+}
+
+.black-hole:hover .black-hole-core {
+    transform: scale(1.25);
+    box-shadow:
+        0 0 25px rgba(0, 0, 0, 0.95),
+        0 0 50px rgba(0, 0, 0, 0.7),
+        0 0 4px 2px rgba(255, 180, 100, 0.7),
+        0 0 12px 4px rgba(255, 140, 60, 0.5),
+        0 0 25px 6px rgba(255, 100, 40, 0.25),
+        0 0 50px rgba(80, 20, 120, 0.3),
+        0 0 90px rgba(60, 10, 100, 0.15),
+        0 0 130px rgba(255, 100, 40, 0.06),
+        inset 0 0 25px rgba(0, 0, 0, 1);
+}
+
+/* Accretion disk — M87 inspired */
+.black-hole-disk {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 240%;
+    height: 240%;
+    transform: translate(-50%, -50%) rotateX(78deg);
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0.7;
+    transition: opacity 0.6s ease;
+}
+
+.black-hole:hover .black-hole-disk {
+    opacity: 1;
+}
+
+/* Outer accretion ring */
+.black-hole-disk::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        transparent 0%,
+        rgba(255, 140, 50, 0.06) 8%,
+        rgba(255, 180, 80, 0.12) 18%,
+        rgba(255, 120, 40, 0.04) 32%,
+        transparent 42%,
+        rgba(255, 160, 60, 0.08) 55%,
+        rgba(255, 200, 100, 0.1) 68%,
+        rgba(255, 100, 30, 0.03) 82%,
+        transparent 100%
+    );
+    box-shadow:
+        0 0 20px rgba(255, 140, 60, 0.06),
+        inset 0 0 30px rgba(255, 160, 80, 0.04);
+    animation: disk-spin 18s linear infinite;
+}
+
+/* Inner accretion ring */
+.black-hole-disk::after {
+    content: '';
+    position: absolute;
+    inset: 28%;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 120deg,
+        transparent 0%,
+        rgba(255, 190, 120, 0.08) 12%,
+        rgba(255, 150, 70, 0.05) 28%,
+        transparent 45%,
+        rgba(255, 210, 140, 0.06) 60%,
+        rgba(255, 160, 80, 0.1) 78%,
+        transparent 100%
+    );
+    animation: disk-spin 11s linear infinite reverse;
+}
+
+@keyframes bh-breathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes photon-shimmer {
+    0% { opacity: 0.35; }
+    100% { opacity: 1; }
+}
+
+@keyframes inner-pulse {
+    0% { opacity: 0.2; }
+    100% { opacity: 0.7; }
+}
+
+@keyframes disk-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.black-hole-label {
+    position: absolute;
+    left: 50%;
+    top: calc(100% + 14px);
+    transform: translateX(-50%);
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+    color: rgba(255, 180, 120, 0.6);
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+}
+
+.black-hole:hover .black-hole-label {
+    opacity: 1;
+}
+
+/* Suck-in animation on the universe */
+body.black-hole-active #universe {
+    will-change: transform, opacity;
+    animation: suck-in 4.5s cubic-bezier(0.3, 0, 1, 1) forwards;
+}
+
+body.black-hole-active #particles {
+    will-change: transform, opacity;
+    animation: suck-in 4.5s cubic-bezier(0.3, 0, 1, 1) forwards;
+}
+
+body.black-hole-active #curiosity-toggle,
+body.black-hole-active #tips-toggle {
+    animation: fade-away 0.5s ease forwards;
+}
+
+@keyframes suck-in {
+    0% {
+        transform-origin: var(--bh-x, 50%) var(--bh-y, 50%);
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+    /* Slow pull begins */
+    15% {
+        transform: scale(1.3) rotate(5deg);
+        opacity: 0.98;
+    }
+    /* Accelerating spiral */
+    32% {
+        transform: scale(2.2) rotate(20deg);
+        opacity: 0.85;
+    }
+    /* Rapid spiral — gravitational drain */
+    48% {
+        transform: scale(4.5) rotate(55deg);
+        opacity: 0.6;
+    }
+    /* Event horizon — brief flash via opacity bump */
+    58% {
+        transform: scale(7) rotate(90deg);
+        opacity: 0.7;
+    }
+    /* Past event horizon — swallowed */
+    73% {
+        transform: scale(14) rotate(145deg);
+        opacity: 0.12;
+    }
+    /* Complete absorption */
+    100% {
+        transform: scale(25) rotate(200deg);
+        transform-origin: var(--bh-x, 50%) var(--bh-y, 50%);
+        opacity: 0;
+    }
+}
+
+@keyframes fade-away {
+    to { opacity: 0; pointer-events: none; }
+}
+
+/* Event horizon flash overlay */
+#event-horizon-flash {
+    position: fixed;
+    inset: 0;
+    z-index: 4999;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(
+        circle at var(--bh-x, 50%) var(--bh-y, 50%),
+        rgba(255, 220, 160, 0.9) 0%,
+        rgba(255, 160, 80, 0.5) 8%,
+        rgba(255, 100, 40, 0.15) 22%,
+        transparent 45%
+    );
+}
+
+body.black-hole-active #event-horizon-flash {
+    will-change: opacity;
+    animation: horizon-flash 4.5s ease forwards;
+}
+
+@keyframes horizon-flash {
+    0%, 52% { opacity: 0; }
+    57% { opacity: 0.5; }
+    62% { opacity: 1; }
+    68% { opacity: 0.4; }
+    76%, 100% { opacity: 0; }
+}
+
+/* Admin mode */
+#admin-coords {
+    display: none;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 9999;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 100, 0.9);
+    background: rgba(0, 0, 0, 0.75);
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+body.admin-mode #admin-coords {
+    display: block;
+}
+
+body.admin-mode .star {
+    cursor: grab !important;
+}
+
+body.admin-mode .star:active {
+    cursor: grabbing !important;
+}
+
+body.admin-mode .star-core.clickable {
+    cursor: grab !important;
+}
+
+body.admin-mode .gas-cloud {
+    cursor: grab !important;
+}
+
+body.admin-mode .gas-cloud:active {
+    cursor: grabbing !important;
+}
+
+body.admin-mode .black-hole {
+    cursor: grab !important;
+}
+
+body.admin-mode .black-hole:active {
+    cursor: grabbing !important;
+}
+
+#admin-panel {
+    display: none;
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 9999;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    gap: 0.4rem;
+    flex-direction: column;
+}
+
+body.admin-mode #admin-panel {
+    display: flex;
+}
+
+#admin-panel button {
+    background: rgba(0, 0, 0, 0.8);
+    color: rgba(255, 255, 100, 0.9);
+    border: 1px solid rgba(255, 255, 100, 0.3);
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+}
+
+#admin-panel button:hover {
+    background: rgba(255, 255, 100, 0.15);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Black Hole Portal — Interior View
+   ═══════════════════════════════════════════════════════════════ */
+
+.black-hole-portal {
+    position: fixed;
+    inset: 0;
+    z-index: 5000;
+    background: #000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1.5s ease;
+    overflow: hidden;
+}
+
+.black-hole-portal[aria-hidden="false"] {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Nebula color washes */
+.black-hole-portal::after {
+    content: '';
+    position: fixed;
+    inset: -20%;
+    background:
+        radial-gradient(ellipse at 15% 50%, rgba(90, 40, 140, 0.06) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 25%, rgba(255, 120, 50, 0.04) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 85%, rgba(50, 80, 180, 0.03) 0%, transparent 45%),
+        radial-gradient(ellipse at 70% 60%, rgba(200, 100, 50, 0.025) 0%, transparent 40%);
+    pointer-events: none;
+    animation: nebula-drift 50s ease-in-out infinite alternate;
+    z-index: 1;
+}
+
+@keyframes nebula-drift {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-30px, 15px) scale(1.05); }
+    100% { transform: translate(15px, -20px) scale(0.98); }
+}
+
+.portal-interior {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Subtle center glow */
+.portal-interior::before {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 600px;
+    height: 600px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(
+        circle,
+        rgba(60, 30, 80, 0.15) 0%,
+        rgba(40, 20, 60, 0.05) 40%,
+        transparent 70%
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Portal starfield */
+.portal-star {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.portal-star.twinkle {
+    animation: portal-twinkle var(--twinkle-dur, 4s) ease-in-out infinite alternate;
+}
+
+@keyframes portal-twinkle {
+    0% { opacity: var(--op-min, 0.05); }
+    100% { opacity: var(--op-max, 0.6); }
+}
+
+/* Tesseract / Hyperbolic Grid — Interstellar inspired */
+.tesseract-grid {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    perspective: 800px;
+    overflow: hidden;
+}
+
+.grid-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 1px solid rgba(255, 180, 120, 0.05);
+    border-radius: 4px;
+    transform: translate(-50%, -50%) rotateX(60deg) rotateZ(var(--ring-rotation, 0deg));
+    animation: ring-drift 30s linear infinite;
+    box-shadow:
+        0 0 20px rgba(255, 150, 80, 0.02),
+        inset 0 0 20px rgba(255, 150, 80, 0.01);
+}
+
+.ring-1 {
+    width: 200px;
+    height: 200px;
+    --ring-rotation: 0deg;
+    border-color: rgba(255, 200, 140, 0.1);
+    box-shadow: 0 0 15px rgba(255, 180, 100, 0.04), inset 0 0 15px rgba(255, 180, 100, 0.02);
+    animation-duration: 40s;
+}
+
+.ring-2 {
+    width: 400px;
+    height: 400px;
+    --ring-rotation: 15deg;
+    border-color: rgba(180, 140, 240, 0.07);
+    box-shadow: 0 0 20px rgba(160, 120, 220, 0.03), inset 0 0 20px rgba(160, 120, 220, 0.015);
+    animation-duration: 55s;
+    animation-direction: reverse;
+}
+
+.ring-3 {
+    width: 650px;
+    height: 650px;
+    --ring-rotation: 30deg;
+    border-color: rgba(255, 170, 100, 0.055);
+    box-shadow: 0 0 25px rgba(255, 150, 80, 0.025), inset 0 0 25px rgba(255, 150, 80, 0.012);
+    animation-duration: 70s;
+}
+
+.ring-4 {
+    width: 950px;
+    height: 950px;
+    --ring-rotation: 45deg;
+    border-color: rgba(180, 140, 240, 0.04);
+    box-shadow: 0 0 30px rgba(160, 120, 220, 0.02), inset 0 0 30px rgba(160, 120, 220, 0.01);
+    animation-duration: 90s;
+    animation-direction: reverse;
+}
+
+.ring-5 {
+    width: 1300px;
+    height: 1300px;
+    --ring-rotation: 60deg;
+    border-color: rgba(255, 170, 100, 0.03);
+    box-shadow: 0 0 35px rgba(255, 150, 80, 0.015), inset 0 0 35px rgba(255, 150, 80, 0.008);
+    animation-duration: 110s;
+}
+
+@keyframes ring-drift {
+    0% {
+        transform: translate(-50%, -50%) rotateX(60deg) rotateZ(var(--ring-rotation, 0deg));
+    }
+    100% {
+        transform: translate(-50%, -50%) rotateX(60deg) rotateZ(calc(var(--ring-rotation, 0deg) + 360deg));
+    }
+}
+
+/* Manifesto Scroll — Minecraft End Credits Style */
+.manifesto-scroll {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        black 6%,
+        black 94%,
+        transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        black 6%,
+        black 94%,
+        transparent 100%
+    );
+}
+
+.manifesto-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.manifesto-spacer {
+    height: 100vh;
+}
+
+.manifesto-spacer-end {
+    height: 60vh;
+}
+
+.manifesto-content {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 2;
+}
+
+.manifesto-subtitle {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: rgba(200, 185, 255, 0.8);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+}
+
+.manifesto-tldr {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-style: italic;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.4);
+    text-align: center;
+    margin-bottom: 4rem;
+    letter-spacing: 0.05em;
+}
+
+.manifesto-section {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.15);
+    text-align: center;
+    margin: 5rem 0 1rem;
+    letter-spacing: 0.1em;
+}
+
+.manifesto-heading {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.85);
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.manifesto-content p {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    line-height: 2;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 1.5rem;
+}
+
+.manifesto-content ul {
+    list-style: none;
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.manifesto-content li {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    line-height: 2;
+    color: rgba(255, 255, 255, 0.65);
+    margin-bottom: 0.75rem;
+    position: relative;
+    padding-left: 1rem;
+}
+
+.manifesto-content li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.85em;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(200, 185, 255, 0.6);
+}
+
+.manifesto-content blockquote {
+    margin: 1.5rem 0;
+    padding-left: 1.5rem;
+    border-left: 2px solid rgba(200, 185, 255, 0.3);
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.manifesto-vision li {
+    color: rgba(200, 185, 255, 0.7);
+}
+
+.manifesto-vision li::before {
+    background: rgba(200, 185, 255, 0.8);
+}
+
+.manifesto-contentions li {
+    margin-bottom: 1.5rem;
+}
+
+.manifesto-contentions li strong {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.manifesto-contentions li em {
+    color: rgba(200, 185, 255, 0.7);
+}
+
+/* Footnote superscripts */
+.manifesto-content sup {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: rgba(200, 185, 255, 0.5);
+    margin-left: 1px;
+    vertical-align: super;
+}
+
+/* Contact link */
+.manifesto-contact {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-align: center;
+    margin-top: 5rem;
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.manifesto-contact a {
+    color: rgba(200, 185, 255, 0.75);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(200, 185, 255, 0.3);
+    padding-bottom: 1px;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.manifesto-contact a:hover {
+    color: rgba(220, 210, 255, 1);
+    border-color: rgba(200, 185, 255, 0.6);
+}
+
+/* Links in modal — readable on dark backgrounds */
+.modal-links a {
+    color: rgba(167, 139, 250, 0.7);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(167, 139, 250, 0.25);
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.modal-links a:hover {
+    color: rgba(167, 139, 250, 1);
+    border-color: rgba(167, 139, 250, 0.6);
+}
+
+/* Portal Exit Button */
+.portal-exit {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5001;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.3);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    padding: 0.6rem 1.5rem;
+    border-radius: 2rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    opacity: 0;
+    animation: portal-exit-fade-in 2s ease 3s forwards;
+}
+
+.portal-exit:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.6);
+}
+
+@keyframes portal-exit-fade-in {
+    to { opacity: 1; }
 }
 
 
